@@ -6,7 +6,7 @@ const siteMetadata = {
   description: 'Azure Cloud Engineer focused on secure and scalable Microsoft Azure infrastructure',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://prasanth-portfolio-blond.vercel.app',,
+  siteUrl: 'https://prasanth-portfolio-blond.vercel.app',
   siteRepo: 'https://github.com/Prasanth0809/prasanth-portfolio',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
