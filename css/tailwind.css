@@ -6,12 +6,9 @@
 
 /* Core theme configuration */
 @theme {
-  /* Font families */
   --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-  /* Colors */
-  /* Copied from https://tailwindcss.com/docs/theme#default-theme-variable-reference */
   --color-primary-50: oklch(0.971 0.014 343.198);
   --color-primary-100: oklch(0.948 0.028 342.258);
   --color-primary-200: oklch(0.899 0.061 343.231);
@@ -36,26 +33,17 @@
   --color-gray-900: oklch(0.21 0.034 264.665);
   --color-gray-950: oklch(0.13 0.028 261.692);
 
-  /* Line heights */
   --line-height-11: 2.75rem;
   --line-height-12: 3rem;
   --line-height-13: 3.25rem;
   --line-height-14: 3.5rem;
 
-  /* Z-index values */
   --z-60: 60;
   --z-70: 70;
   --z-80: 80;
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
+/* Tailwind compatibility */
 @layer base {
   *,
   ::after,
@@ -78,6 +66,7 @@
   }
 }
 
+/* Typography utilities */
 @layer utilities {
   .prose {
     & a {
@@ -118,23 +107,25 @@
 }
 
 .task-list-item::before {
-  @apply hidden;
+  display: none;
 }
 
 .task-list-item {
-  @apply list-none;
+  list-style: none;
 }
 
 .footnotes {
-  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+  margin-top: 3rem;
+  border-top: 1px solid var(--color-gray-200);
+  padding-top: 2rem;
 }
 
 .data-footnote-backref {
-  @apply no-underline;
+  text-decoration: none;
 }
 
 .csl-entry {
-  @apply my-5;
+  margin: 1.25rem 0;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -142,11 +133,10 @@
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
   transition:
@@ -158,6 +148,7 @@ input:-webkit-autofill:focus {
   overflow: auto hidden;
 }
 
+/* Heading link icon behaviour */
 .content-header-link {
   opacity: 0;
   margin-left: -24px;
@@ -174,6 +165,15 @@ input:-webkit-autofill:focus {
   vertical-align: middle;
 }
 
+/* REMOVE heading anchor link icons completely */
+.prose .content-header-link,
+.prose .linkicon,
 .prose :where(a.anchor) {
-  display: none;
+  display: none !important;
+}
+
+/* remove spacing caused by hidden icon */
+.content-header-link {
+  margin-left: 0 !important;
+  padding-right: 0 !important;
 }
