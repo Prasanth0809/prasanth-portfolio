@@ -1,66 +1,35 @@
-import Link from '@/components/Link'
-
-export default function Home() {
+export default function Main() {
   return (
-    <div className="divide-y divide-gray-200 dark:divide-gray-700">
-
-      {/* Hero Section */}
-      <div className="space-y-6 pt-6 pb-8 md:space-y-8">
-        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl">
+    <div className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
+      <div className="pt-10 pb-10">
+        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl md:text-6xl">
           Prasanth Panneer Selvam
         </h1>
 
-        <p className="text-xl text-gray-500 dark:text-gray-400">
-          Azure Cloud Engineer specializing in designing secure and scalable
+        <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
+          Azure Cloud Engineer with hands-on experience designing, deploying, and managing secure
           Microsoft Azure infrastructure.
         </p>
 
-        <div className="flex gap-4 pt-4">
-          <Link
-            href="/projects"
-            className="rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700"
-          >
-            View Projects
-          </Link>
-
-          <Link
-            href="https://www.linkedin.com"
-            className="rounded-lg border border-gray-400 px-6 py-3 hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            LinkedIn
-          </Link>
-        </div>
-      </div>
-
-      {/* Skills Section */}
-      <div className="pt-10 pb-8">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <h2 className="mt-10 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
           Skills
         </h2>
-
-        <ul className="mt-4 grid grid-cols-2 gap-4 text-gray-600 dark:text-gray-400">
-          <li>Microsoft Azure</li>
+        <ul className="mt-4 list-disc space-y-2 pl-5 text-gray-600 dark:text-gray-300">
           <li>Azure Virtual Machines</li>
           <li>Azure Storage Accounts</li>
-          <li>Azure Networking</li>
-          <li>RBAC & IAM</li>
-          <li>Cloud Security</li>
-          <li>Cost Optimization</li>
+          <li>Azure Networking &amp; Security</li>
+          <li>Identity &amp; Access Management (IAM)</li>
+          <li>Cloud Cost Optimization</li>
           <li>Infrastructure Automation</li>
         </ul>
-      </div>
 
-      {/* Contact Section */}
-      <div className="pt-10 pb-8">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <h2 className="mt-10 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
           Contact
         </h2>
-
-        <p className="mt-4 text-gray-500 dark:text-gray-400">
-          Feel free to connect with me on LinkedIn or explore my Azure projects.
+        <p className="mt-4 text-gray-600 dark:text-gray-300">
+          Email: prasanthp.080920@gmail.com
         </p>
       </div>
-
     </div>
   )
 }
