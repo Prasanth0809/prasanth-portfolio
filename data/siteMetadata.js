@@ -14,7 +14,6 @@ const siteMetadata = {
   email: 'prasanthp.080902@gmail.com',
   github: 'https://github.com/Prasanth0809',
   linkedin: 'https://www.linkedin.com/in/prasanthpanneer',
-  threads: 'https://www.threads.net',
   locale: 'en-US',
   // set to true if you want a navbar fixed to the top
   stickyNav: false,
