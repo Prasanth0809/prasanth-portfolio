@@ -13,8 +13,9 @@ export default function Projects() {
         </h1>
 
         <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-          Hands-on Azure infrastructure and security projects demonstrating real-world cloud architecture.
-        </p>
+  Hands-on Azure infrastructure and security projects demonstrating real-world cloud
+  architecture.
+</p>
       </div>
 
       <div className="container py-12">
