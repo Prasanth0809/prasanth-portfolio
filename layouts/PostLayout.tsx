@@ -27,9 +27,11 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, children }: LayoutProps) {
-  const { filePath, slug, date, title, github } = content
+  const { filePath, slug, date, title } = content
 
-  const githubLink = github ? github : editUrl(filePath)
+  // Read github from MDX frontmatter safely (contentlayer type may not include it)
+  const github = (content as any)?.github as string | undefined
+  const githubLink = github || editUrl(filePath)
 
   return (
     <SectionContainer>
