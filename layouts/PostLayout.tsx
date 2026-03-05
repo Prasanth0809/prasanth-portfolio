@@ -27,7 +27,9 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, children }: LayoutProps) {
-  const { filePath, slug, date, title } = content
+  const { filePath, slug, date, title, github } = content
+
+  const githubLink = github ? github : editUrl(filePath)
 
   return (
     <SectionContainer>
@@ -86,9 +88,11 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
           <div className="pb-8">
             <div className="prose max-w-none pt-10 pb-8 dark:prose-invert">{children}</div>
 
-            {/* Only keep GitHub link */}
+            {/* View on GitHub (uses frontmatter github: if present) */}
             <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
-              <Link href={editUrl(filePath)}>View on GitHub</Link>
+              <Link href={githubLink} rel="nofollow">
+                View on GitHub
+              </Link>
             </div>
 
             {siteMetadata.comments && (
