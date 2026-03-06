@@ -1,24 +1,37 @@
 ---
-title: "Secure Azure Storage (Private Endpoints + RBAC + Encryption)"
+title: "Secure Azure Storage Architecture"
 date: "2026-03-04"
 summary: "Designing a secure Azure Storage architecture using private endpoints, RBAC, and encryption."
 github: "https://github.com/Prasanth0809/prasanth-portfolio/tree/main/data/blog"
 ---
 
-# Secure Azure Storage Architecture
+In this project, I designed a secure Azure Storage architecture focused on data protection, network isolation, and controlled access.
 
-In this project, I designed a secure Azure Storage architecture focusing on data protection and controlled access.
+## Key Architecture Highlights
 
-## Project Highlights
-
-- Designed secure Azure Storage architecture using Private Endpoints and RBAC
+- Designed a secure Azure Storage architecture using Private Endpoints and RBAC
 - Isolated resources with Azure Virtual Network and Network Security Groups
 - Enabled encryption at rest for protected data storage
-- Documented deployment and networking setup with Azure portal screenshots
+- Documented deployment and networking configuration with Azure portal screenshots
 
 ## Architecture Diagram
 
 ![Secure Azure Storage Architecture](/static/images/azure-secure-storage-architecture.png)
+
+## Implementation Roadmap
+
+This project is being implemented in multiple phases to demonstrate a complete secure Azure Storage architecture.
+
+### Completed
+
+- Phase 1 — Storage Account Deployment
+- Phase 2 — Network Security Configuration
+
+### Coming Soon
+
+- 🚧 Phase 3 — Private Endpoint Integration
+- 🚧 Phase 4 — Role-Based Access Control (RBAC)
+- 🚧 Phase 5 — Encryption and Data Protection
 
 ## Architecture Overview
 
@@ -31,42 +44,87 @@ The architecture includes:
 - Role-Based Access Control (RBAC)
 - Encryption at rest
 
-## Phase 1 - Storage Account Deployment
+## Phase 1 — Storage Account Deployment
 
 ![Azure Storage Deployment Success](/static/images/storage-deployment-success.png)
 
-The Azure Storage Account was successfully deployed in the CloudGuard resource group.  
-This deployment confirms the secure storage infrastructure setup in the Azure environment before configuring private endpoints, RBAC access control, and encryption settings.
+The Azure Storage Account was successfully deployed in the CloudGuard resource group.
+
+This deployment confirms that the secure storage foundation was established in Azure before implementing advanced controls such as Private Endpoints, RBAC, and encryption-related validation.
 
 ## Phase 2 — Network Security Configuration
 
 ![Azure Virtual Network Configuration](/static/images/vnet-success.png)
 
-A virtual network was configured to isolate the storage infrastructure.  
+A virtual network was configured to isolate the storage infrastructure and support secure communication paths.
+
 Network Security Groups (NSGs) were applied to control inbound and outbound traffic.
 
 ![NSG Configuration](/static/images/nsg-overview.png)
 
 Security rules were configured to restrict access and allow only required communication paths within the Azure environment.
 
+## Monitoring and Logging
+
+To improve operational visibility, Azure Monitor diagnostic settings were enabled for the storage account.
+
+Key configurations included:
+
+- Diagnostic logs sent to Log Analytics
+- Storage transaction metrics monitoring
+- Centralized monitoring through Azure Monitor
+- Query validation using Log Analytics Workspace
+
+This setup improves visibility into storage operations and helps detect abnormal behavior.
+
+## Alerting and Notifications
+
+Azure Monitor alert rules were configured to proactively detect unusual activity.
+
+Alert configuration included:
+
+- Creation of an Azure Monitor Action Group
+- Email notifications for operational alerts
+- Alert rule for abnormal storage transaction spikes
+- Automated alert triggering based on thresholds
+
+This ensures administrators are notified quickly when suspicious or unexpected activity occurs.
+
+## Security Validation
+
+After deployment, the architecture was validated against Azure security best practices.
+
+Validation checks included:
+
+- Role-Based Access Control (RBAC) verification
+- Network isolation through Azure Virtual Network
+- Network Security Group rule enforcement
+- Microsoft Defender for Cloud security recommendations
+
+These controls help ensure the storage environment aligns with Azure cloud security and governance standards.
+
 ## Key Security Features
 
 ### Private Endpoints
-Private endpoints ensure that the storage account is only accessible within the Azure virtual network.
+
+Private Endpoints ensure that the storage account is only accessible through the Azure virtual network instead of broad public exposure.
 
 ### RBAC
-Role-based access control ensures only authorized users can access storage resources.
+
+Role-Based Access Control ensures that only authorized users are granted access to storage resources based on least-privilege principles.
 
 ### Encryption
-Azure Storage automatically encrypts data at rest using Microsoft-managed keys.
+
+Azure Storage automatically encrypts data at rest using Microsoft-managed keys to strengthen data protection.
 
 ## Outcome
 
-This architecture ensures:
+This architecture provides:
 
 - Secure data access
 - Network isolation
 - Controlled permissions
-- Compliance with cloud security best practices
+- Improved monitoring and alerting
+- Alignment with cloud security best practices
 
-This project demonstrates practical experience designing secure cloud storage solutions using Microsoft Azure.
+This project demonstrates practical experience in designing and documenting secure cloud storage solutions using Microsoft Azure.
