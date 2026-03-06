@@ -2,8 +2,9 @@
 const siteMetadata = {
   title: 'Prasanth Panneer Selvam',
   author: 'Prasanth Panneer Selvam',
-  headerTitle: ' Prasanth Panneer Selvam',
-  description:  'Azure Cloud Engineer specializing in Infrastructure, Security and Cost Optimization',
+  headerTitle: 'Azure Cloud Engineer',
+  description: 'Azure Cloud Engineer specializing in secure infrastructure, monitoring, and cloud security on Microsoft Azure.',
+}
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://prasanth-portfolio-blond.vercel.app',
