@@ -2,7 +2,7 @@
 const siteMetadata = {
   title: 'Prasanth Panneer Selvam',
   author: 'Prasanth Panneer Selvam',
-  headerTitle: 'Azure Cloud Engineer',
+  headerTitle: 'PS',
   description:
     'Azure Cloud Engineer specializing in secure infrastructure, monitoring, and cloud security on Microsoft Azure.',
   language: 'en-us',
