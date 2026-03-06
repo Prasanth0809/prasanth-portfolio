@@ -18,17 +18,29 @@ In this project, I designed a secure Azure Storage architecture focusing on data
 The architecture includes:
 
 - Azure Storage Account
+- Azure Virtual Network (VNet)
 - Private Endpoints
+- Network Security Groups (NSG)
 - Role-Based Access Control (RBAC)
 - Encryption at rest
-- Secure networking
 
-## Storage Account Deployment
+## Phase 1 - Storage Account Deployment
 
 ![Azure Storage Deployment Success](/static/images/storage-deployment-success.png)
 
 The Azure Storage Account was successfully deployed in the CloudGuard resource group.  
 This deployment confirms the secure storage infrastructure setup in the Azure environment before configuring private endpoints, RBAC access control, and encryption settings.
+
+## Phase 2 — Network Security Configuration
+
+![Azure Virtual Network Configuration](/static/images/vnet-success.png)
+
+A virtual network was configured to isolate the storage infrastructure.  
+Network Security Groups (NSGs) were applied to control inbound and outbound traffic.
+
+![NSG Configuration](/static/images/nsg-overview.png)
+
+Security rules were configured to restrict access and allow only required communication paths within the Azure environment.
 
 ## Key Security Features
 
