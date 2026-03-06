@@ -28,7 +28,7 @@ export default function Main() {
           Contact
         </h2>
         <p className="mt-4 text-gray-600 dark:text-gray-300">
-          Email: prasanthp.080920@gmail.com
+          Email: prasanthp.080902@gmail.com
         </p>
       </div>
     </div>
