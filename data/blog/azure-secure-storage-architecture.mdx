@@ -2,7 +2,7 @@
 title: "Secure Azure Storage Architecture"
 date: "2026-03-04"
 summary: "Designing a secure Azure Storage architecture using private endpoints, RBAC, and encryption."
-github: "https://github.com/Prasanth0809/prasanth-portfolio/tree/main/data/blog"
+github: "https://github.com/Prasanth0809/azure-secure-cloud-infrastructure"
 ---
 
 In this project, I designed a secure Azure Storage architecture focused on data protection, network isolation, and controlled access.
@@ -13,6 +13,16 @@ In this project, I designed a secure Azure Storage architecture focused on data 
 - Isolated resources with Azure Virtual Network and Network Security Groups
 - Enabled encryption at rest for protected data storage
 - Documented deployment and networking configuration with Azure portal screenshots
+
+## Azure Services Used
+
+- Azure Storage Account
+- Azure Virtual Network (VNet)
+- Network Security Groups (NSG)
+- Azure Monitor
+- Log Analytics Workspace
+- Azure RBAC
+- Microsoft Defender for Cloud
 
 ## Architecture Diagram
 
@@ -43,6 +53,22 @@ The architecture includes:
 - Network Security Groups (NSG)
 - Role-Based Access Control (RBAC)
 - Encryption at rest
+
+## Architecture Design Principles
+
+The architecture was designed based on key cloud security and reliability principles.
+
+**Least Privilege Access**  
+Access to resources is controlled using Role-Based Access Control (RBAC) to ensure users only have the permissions required for their roles.
+
+**Network Isolation**  
+Azure Virtual Networks and Network Security Groups are used to isolate the storage infrastructure and control inbound and outbound communication.
+
+**Defense in Depth**  
+Multiple layers of protection are implemented, including network security, RBAC permissions, encryption, and monitoring.
+
+**Operational Visibility**  
+Azure Monitor and Log Analytics provide continuous visibility into system behavior, enabling faster detection of unusual activity.
 
 ## Phase 1 — Storage Account Deployment
 
@@ -85,8 +111,8 @@ Alert configuration included:
 
 - Creation of an Azure Monitor Action Group
 - Email notifications for operational alerts
-- Alert rule for abnormal storage transaction spikes
-- Automated alert triggering based on thresholds
+- Alert rules for abnormal storage transaction spikes
+- Automated alert triggering based on defined thresholds
 
 This ensures administrators are notified quickly when suspicious or unexpected activity occurs.
 
@@ -121,10 +147,10 @@ Azure Storage automatically encrypts data at rest using Microsoft-managed keys t
 
 This architecture provides:
 
-- Secure data access
-- Network isolation
-- Controlled permissions
-- Improved monitoring and alerting
-- Alignment with cloud security best practices
+- Secure access to storage resources
+- Network isolation using Azure Virtual Networks
+- Role-based access management
+- Continuous monitoring and alerting
+- Alignment with Azure cloud security best practices
 
-This project demonstrates practical experience in designing and documenting secure cloud storage solutions using Microsoft Azure.
+This project demonstrates practical experience designing and implementing secure cloud infrastructure using Microsoft Azure.
