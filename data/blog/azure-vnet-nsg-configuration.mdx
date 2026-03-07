@@ -21,11 +21,11 @@ This implementation is part of the **Secure Azure Storage Architecture** project
 
 The networking architecture was designed to achieve the following:
 
-- Isolate Azure resources within a private virtual network  
-- Segment network traffic using subnets  
-- Control inbound and outbound traffic using Network Security Groups  
-- Reduce the public attack surface of the infrastructure  
-- Follow Azure networking and security best practices  
+- Isolate Azure resources within a private virtual network
+- Segment network traffic using subnets
+- Control inbound and outbound traffic using Network Security Groups
+- Reduce the public attack surface of the infrastructure
+- Follow Azure networking and security best practices
 
 ---
 
@@ -38,29 +38,13 @@ The networking architecture was designed to achieve the following:
 
 ---
 
-# Virtual Network Deployment
+## Virtual Network Planning
 
-## VNet Creation
-
-![Azure Virtual Network Creation](/static/images/azure-vnet-subnet-address-space-config.png)
-
-A Virtual Network was created to provide a secure and isolated network environment for Azure resources.
-
-The VNet was configured with the following parameters:
-
-- Resource Group: CloudGuard-RG  
-- Region: East US  
-- Address Space: 10.0.0.0/16  
-
-This network serves as the foundation for hosting and isolating Azure resources within the cloud infrastructure.
-
----
-
-## Address Space and Subnet Configuration
+### Address Space and Subnet Configuration
 
 ![Azure VNet Address Space and Subnets](/static/images/azure-vnet-subnet-address-space-config.png)
 
-The address space of the Virtual Network was divided into multiple subnets to logically separate different components of the infrastructure.
+The Virtual Network was designed with a dedicated address space and subnet segmentation to support secure communication between Azure resources.
 
 Configured subnets include:
 
@@ -68,99 +52,103 @@ Configured subnets include:
 - **Public Subnet**
 - **Private Subnet**
 
-Subnet segmentation improves security and allows better control over traffic flow within the network.
+Subnet segmentation improves traffic control and creates a stronger security boundary inside the Azure environment.
 
 ---
 
-## Configuration Review Before Deployment
+### Review and Create
 
 ![Azure VNet Review and Create](/static/images/azure-vnet-review-and-create.png)
 
-Before deployment, Azure validates the configuration to ensure that all networking parameters are correctly defined.
+Before deployment, Azure validates the network configuration to confirm that the address space, subnet allocations, resource group, and region settings are correctly defined.
 
-The review stage confirms:
-
-- Address space configuration
-- Subnet allocation
-- Resource group and region selection
-
-This step helps prevent configuration errors before the infrastructure is deployed.
+This review step helps prevent configuration errors before the Virtual Network is created.
 
 ---
 
-# Network Security Group Configuration
+## Network Security Group Configuration
 
-## Creating Inbound Security Rules
+### Creating Inbound Security Rules
 
 ![NSG Inbound Rule Configuration](/static/images/azure-nsg-inbound-rule-config.png)
 
-A Network Security Group (NSG) was configured to control inbound and outbound network traffic.
+A Network Security Group was configured to control inbound and outbound network traffic.
 
-An inbound rule was created to allow **SSH (Port 22)** access for administrative connectivity while restricting other unauthorized traffic.
+An inbound rule was created to allow **SSH (Port 22)** access for administrative connectivity while restricting unnecessary traffic.
 
 Key rule parameters included:
 
-- Protocol: TCP  
-- Port: 22  
-- Action: Allow  
-- Priority: 300  
+- Protocol: TCP
+- Port: 22
+- Action: Allow
+- Priority: 300
 
-NSG rules are evaluated based on priority to determine which traffic is allowed or denied.
-
----
-
-## Verifying NSG Rule Creation
-
-![NSG Rule Added](/static/images/azure-nsg-inbound-rule-added.png)
-
-After creating the rule, it appears in the NSG inbound rule list.
-
-This confirms that the security policy has been successfully applied and will now regulate incoming traffic based on the defined configuration.
+NSG rules are evaluated based on priority, which ensures that traffic is filtered according to explicitly defined policies.
 
 ---
 
-## Restricting SSH Access to Trusted IP
+### Restricting SSH Access to a Trusted IP
 
 ![NSG SSH Restricted IP](/static/images/azure-nsg-ssh-restricted-ip-rule.png)
 
-To improve security, SSH access was restricted to a specific trusted IP address.
+To improve security, SSH access was restricted to a specific trusted IP address instead of being opened broadly.
 
-Instead of allowing SSH access from the entire internet, the rule was configured to allow access only from a specific IP address range.
-
-This significantly reduces the risk of unauthorized access and brute-force attacks against the infrastructure.
+This significantly reduces the risk of unauthorized access and brute-force attacks by allowing administrative access only from an approved source.
 
 ---
 
-## Associating NSG with Subnet
+### Verifying NSG Rule Creation
+
+![NSG Rule Added](/static/images/azure-nsg-inbound-rule-added.png)
+
+After the inbound rule was created, it appeared in the NSG rule list.
+
+This confirms that the security policy was successfully applied and is now actively controlling inbound traffic to the environment.
+
+---
+
+## Associating NSG with the Subnet
+
+### NSG Association Configuration
+
+![NSG Association Configuration](/static/images/azure-subnet-nsg-association-config.png)
+
+The Network Security Group was configured to be associated with the subnet so that all resources inside that subnet inherit the defined traffic rules.
+
+This provides centralized traffic control at the subnet level.
+
+---
+
+### NSG Successfully Associated with Subnet
 
 ![NSG Associated with Subnet](/static/images/azure-subnet-nsg-associated.png)
 
-The Network Security Group was then associated with the **public subnet** inside the Virtual Network.
+After the association was completed, the subnet showed the attached NSG successfully.
 
-By attaching the NSG at the subnet level:
+By associating the NSG at the subnet level:
 
 - All resources inside the subnet inherit the security rules
 - Traffic entering or leaving the subnet is filtered
 - Unauthorized access attempts are blocked automatically
 
-This approach ensures centralized traffic control across all resources within the subnet.
+This approach strengthens the overall security posture of the Azure environment.
 
 ---
 
-# Security Benefits
+## Security Benefits
 
-Implementing Virtual Networks and Network Security Groups provides several security advantages:
+Implementing Azure Virtual Networks and Network Security Groups provides several key security advantages:
 
-- Network isolation for cloud infrastructure  
-- Controlled inbound and outbound traffic  
-- Reduced exposure to the public internet  
-- Improved security posture for Azure resources  
+- Network isolation for cloud infrastructure
+- Controlled inbound and outbound traffic
+- Reduced exposure to the public internet
+- Improved security posture for Azure resources
 
 These controls form a foundational layer of defense for securing Azure workloads.
 
 ---
 
-# Relationship to Main Project
+## Relationship to Main Project
 
 This networking configuration is part of the larger **Secure Azure Storage Architecture** implementation.
 
