@@ -1,0 +1,79 @@
+---
+title: "Azure Monitor & Log Analytics Setup"
+date: "2026-03-07"
+summary: "Implementing centralized monitoring and diagnostic visibility for Azure resources using Azure Monitor and Log Analytics."
+tags: ["Azure", "Monitoring", "Log Analytics"]
+---
+
+## Overview
+
+This case study explains how monitoring and logging were configured for the Azure infrastructure using Azure Monitor and Log Analytics.
+
+The objective was to create centralized visibility into system behavior and detect unusual activity within the cloud environment.
+
+This implementation is part of the **Secure Azure Storage Architecture** project.
+
+---
+
+## Monitoring Objectives
+
+The monitoring architecture was designed to achieve the following:
+
+- Enable centralized monitoring for Azure resources
+- Capture diagnostic logs for storage operations
+- Monitor system metrics and activity
+- Detect abnormal behavior through alerts
+
+---
+
+## Azure Services Used
+
+- Azure Monitor
+- Log Analytics Workspace
+- Azure Storage Account
+- Diagnostic Settings
+
+---
+
+## Diagnostic Configuration
+
+![Azure Monitor Diagnostics](/static/images/storage-deployment-success.png)
+
+Diagnostic settings were enabled on the storage account to send logs and metrics to Log Analytics.
+
+This configuration allows administrators to monitor storage activity and analyze operational data in real time.
+
+---
+
+## Log Analytics Integration
+
+Logs from the storage account were forwarded to a Log Analytics Workspace.
+
+This provides a centralized location to query logs, analyze events, and investigate infrastructure activity.
+
+Administrators can run queries to identify:
+
+- unusual storage activity
+- abnormal request spikes
+- operational failures
+
+---
+
+## Security and Operational Benefits
+
+Using Azure Monitor and Log Analytics provides several advantages:
+
+- centralized monitoring for Azure infrastructure
+- improved troubleshooting capability
+- faster detection of abnormal activity
+- enhanced operational visibility
+
+---
+
+## Relationship to Main Project
+
+This monitoring setup is part of the larger **Secure Azure Storage Architecture** implementation.
+
+To view the full architecture and deployment details, see the main project:
+
+➡️ [Secure Azure Storage Architecture](/blog/azure-secure-storage-architecture)
