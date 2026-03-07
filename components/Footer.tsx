@@ -20,8 +20,8 @@ export default function Footer() {
           <SocialIcon kind="medium" href={siteMetadata.medium} size={6} />
         </div>
         <div className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-  © {new Date().getFullYear()} Prasanth Panneer Selvam
-</div>
+          {`© ${new Date().getFullYear()} Prasanth Panneer Selvam`}
+        </div>
       </div>
     </footer>
   )
