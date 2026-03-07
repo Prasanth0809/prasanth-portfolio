@@ -42,7 +42,7 @@ The networking architecture was designed to achieve the following:
 
 ## VNet Creation
 
-![Azure Virtual Network Creation](/static/images/azure-vnet-creation-config.png)
+![Azure Virtual Network Creation](/static/images/azure-vnet-subnet-address-space-config.png)
 
 A Virtual Network was created to provide a secure and isolated network environment for Azure resources.
 
@@ -88,16 +88,6 @@ This step helps prevent configuration errors before the infrastructure is deploy
 
 ---
 
-## VNet Deployment Success
-
-![Azure VNet Deployment Success](/static/images/azure-vnet-deployment-success.png)
-
-Once validation passed, the Virtual Network was successfully deployed.
-
-The deployed VNet provides a secure internal network layer where Azure resources can communicate privately without relying on public internet exposure.
-
----
-
 # Network Security Group Configuration
 
 ## Creating Inbound Security Rules
@@ -126,6 +116,18 @@ NSG rules are evaluated based on priority to determine which traffic is allowed 
 After creating the rule, it appears in the NSG inbound rule list.
 
 This confirms that the security policy has been successfully applied and will now regulate incoming traffic based on the defined configuration.
+
+---
+
+## Restricting SSH Access to Trusted IP
+
+![NSG SSH Restricted IP](/static/images/azure-nsg-ssh-restricted-ip-rule.png)
+
+To improve security, SSH access was restricted to a specific trusted IP address.
+
+Instead of allowing SSH access from the entire internet, the rule was configured to allow access only from a specific IP address range.
+
+This significantly reduces the risk of unauthorized access and brute-force attacks against the infrastructure.
 
 ---
 
