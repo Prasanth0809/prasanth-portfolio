@@ -11,7 +11,6 @@ const Header = () => {
   if (siteMetadata.stickyNav) {
     headerClass += ' sticky top-0 z-50'
   }
-
   return (
     <header className={headerClass}>
       <Link href="/" aria-label={siteMetadata.headerTitle}>
@@ -36,6 +35,7 @@ const Header = () => {
               <Link
                 key={link.title}
                 href={link.href}
+                target={link.target}
                 className="hover:text-primary-500 dark:hover:text-primary-400 m-1 font-medium text-gray-900 dark:text-gray-100"
               >
                 {link.title}
