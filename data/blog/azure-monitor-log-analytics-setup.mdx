@@ -2,77 +2,106 @@
 title: "Azure Monitor & Log Analytics Setup"
 date: "2026-03-07"
 summary: "Implementing centralized monitoring and diagnostic visibility for Azure resources using Azure Monitor and Log Analytics."
-tags: ["Azure", "Monitoring", "Log Analytics"]
+tags: ["Azure", "Monitoring", "Log Analytics", "Azure Monitor"]
 ---
 
 ## Overview
 
-This case study explains how monitoring and logging were configured for the Azure infrastructure using Azure Monitor and Log Analytics.
+This case study explains how centralized monitoring and logging were implemented for the Azure infrastructure using **Azure Monitor** and **Log Analytics**.
 
-The objective was to create centralized visibility into system behavior and detect unusual activity within the cloud environment.
+The objective was to create centralized visibility into system activity, capture diagnostic logs, and enable administrators to analyze operational behavior across Azure resources.
 
-This implementation is part of the **Secure Azure Storage Architecture** project.
+This monitoring configuration is part of the larger **Secure Azure Storage Architecture** project.
 
 ---
 
 ## Monitoring Objectives
 
-The monitoring architecture was designed to achieve the following:
+The monitoring architecture was designed to achieve the following goals:
 
-- Enable centralized monitoring for Azure resources
-- Capture diagnostic logs for storage operations
-- Monitor system metrics and activity
-- Detect abnormal behavior through alerts
+- Enable centralized monitoring for Azure resources  
+- Capture diagnostic logs for storage operations  
+- Monitor system metrics and infrastructure activity  
+- Detect abnormal behavior and operational issues  
 
 ---
 
 ## Azure Services Used
 
-- Azure Monitor
-- Log Analytics Workspace
-- Azure Storage Account
-- Diagnostic Settings
+The following Azure services were used in this monitoring implementation:
+
+- **Azure Monitor**
+- **Log Analytics Workspace**
+- **Azure Storage Account**
+- **Diagnostic Settings**
 
 ---
 
-## Diagnostic Configuration
+# Step 1 — Create Log Analytics Workspace
 
-![Azure Monitor Diagnostics](/static/images/storage-deployment-success.png)
+A **Log Analytics Workspace** was created to collect and store monitoring data from Azure resources.
 
-Diagnostic settings were enabled on the storage account to send logs and metrics to Log Analytics.
+This workspace acts as the central repository where logs and metrics from different Azure services are aggregated and analyzed.
 
-This configuration allows administrators to monitor storage activity and analyze operational data in real time.
+![Log Analytics Workspace Creation](/static/images/azure-log-analytics-workspace-creation.png)
+
+After submitting the configuration, the deployment completed successfully.
+
+![Log Analytics Workspace Deployment Success](/static/images/azure-log-analytics-workspace-deployment-success.png)
+
+The workspace can then be verified from the Azure portal.
+
+![Log Analytics Workspace Overview](/static/images/azure-log-analytics-workspace-overview.png)
+
+---
+
+# Step 2 — Configure Diagnostic Settings
+
+To capture operational activity from the storage account, **diagnostic settings** were configured.
+
+These settings allow platform logs and metrics to be streamed directly to the **Log Analytics Workspace**.
+
+![Diagnostic Settings Configuration](/static/images/azure-storage-diagnostic-settings-log-analytics-config.png)
+
+Once the configuration was applied, the diagnostic settings confirmed that logs were successfully connected to the workspace.
+
+![Diagnostic Settings Enabled](/static/images/azure-storage-diagnostic-settings-log-analytics-enabled.png)
+
+This enables administrators to analyze storage activity and infrastructure behavior in near real-time.
 
 ---
 
 ## Log Analytics Integration
 
-Logs from the storage account were forwarded to a Log Analytics Workspace.
+Logs from the storage account are continuously sent to the Log Analytics workspace.
 
-This provides a centralized location to query logs, analyze events, and investigate infrastructure activity.
+Administrators can run queries using **Kusto Query Language (KQL)** to investigate infrastructure behavior and identify anomalies.
 
-Administrators can run queries to identify:
+Examples of insights that can be detected include:
 
-- unusual storage activity
-- abnormal request spikes
-- operational failures
+- unusual storage access patterns  
+- abnormal request spikes  
+- operational failures or errors  
+- system performance issues  
 
 ---
 
 ## Security and Operational Benefits
 
-Using Azure Monitor and Log Analytics provides several advantages:
+Implementing Azure Monitor and Log Analytics provides several operational and security advantages:
 
-- centralized monitoring for Azure infrastructure
-- improved troubleshooting capability
-- faster detection of abnormal activity
-- enhanced operational visibility
+- centralized monitoring across Azure resources  
+- improved troubleshooting and root-cause analysis  
+- faster detection of abnormal activity  
+- improved visibility into infrastructure operations  
 
 ---
 
 ## Relationship to Main Project
 
-This monitoring setup is part of the larger **Secure Azure Storage Architecture** implementation.
+This monitoring implementation is part of the larger **Secure Azure Storage Architecture** project.
+
+The overall architecture integrates secure networking, private endpoints, monitoring, and access control to protect cloud resources.
 
 To view the full architecture and deployment details, see the main project:
 
