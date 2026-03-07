@@ -1,0 +1,81 @@
+---
+title: "Azure Virtual Network & NSG Configuration"
+date: "2026-03-06"
+summary: "Configuring Azure Virtual Networks and Network Security Groups to isolate infrastructure and control inbound and outbound traffic."
+tags: ["Azure", "Networking", "Security"]
+---
+
+## Overview
+
+This case study demonstrates how Azure Virtual Networks (VNet) and Network Security Groups (NSG) were configured to isolate and protect cloud infrastructure.
+
+The goal was to ensure that Azure resources communicate securely within a private network while restricting unnecessary inbound and outbound traffic.
+
+This implementation is part of the **Secure Azure Storage Architecture** project.
+
+---
+
+## Architecture Objective
+
+The networking architecture was designed to achieve the following:
+
+- Isolate Azure resources within a private virtual network
+- Control inbound and outbound traffic using NSG rules
+- Reduce the public attack surface
+- Follow Azure cloud security best practices
+
+---
+
+## Azure Services Used
+
+- Azure Virtual Network
+- Network Security Groups
+- Azure Storage Account
+- Azure Monitor
+
+---
+
+## Virtual Network Deployment
+
+![Azure Virtual Network Configuration](/static/images/vnet-success.png)
+
+A Virtual Network was created to provide a private communication layer between Azure resources.
+
+This allows the storage infrastructure to operate inside an isolated network environment instead of being directly exposed to the public internet.
+
+---
+
+## Network Security Group Configuration
+
+![NSG Configuration](/static/images/nsg-overview.png)
+
+Network Security Groups were configured to control traffic entering and leaving the virtual network.
+
+Security rules were created to:
+
+- Restrict unauthorized inbound traffic
+- Allow required internal communication between Azure resources
+- Enforce controlled access to the storage infrastructure
+
+These rules help ensure that only approved traffic paths are allowed within the Azure environment.
+
+---
+
+## Security Benefits
+
+Implementing VNet and NSG provides several security advantages:
+
+- Network isolation for Azure resources
+- Reduced attack surface
+- Controlled traffic flow
+- Improved infrastructure security posture
+
+---
+
+## Relationship to Main Project
+
+This networking configuration is part of the larger **Secure Azure Storage Architecture** implementation.
+
+To view the full architecture and deployment details, see the main project:
+
+➡️ **Secure Azure Storage Architecture**
