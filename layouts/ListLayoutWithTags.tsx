@@ -4,6 +4,7 @@ import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
 import Link from '@/components/Link'
+import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 
 interface PaginationProps {
@@ -71,9 +72,9 @@ export default function ListLayoutWithTags({
 
   return (
     <>
-      <div>
-        <div className="pt-6 pb-6">
-          <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-6xl">
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="space-y-2 pt-6 pb-8 md:space-y-5">
+          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
             {title}
           </h1>
         </div>
@@ -81,33 +82,27 @@ export default function ListLayoutWithTags({
           {displayPosts.map((post) => {
             const { path, date, title, summary, tags } = post
             return (
-              <li key={path} className="py-5">
-                <article className="flex flex-col space-y-2">
+              <li key={path} className="py-4">
+                <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                   <dl>
-                    <dd className="text-base font-medium text-gray-500 dark:text-gray-400">
+                    <dt className="sr-only">Published on</dt>
+                    <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
                       <time dateTime={date} suppressHydrationWarning>
                         {formatDate(date, siteMetadata.locale)}
                       </time>
                     </dd>
                   </dl>
-                  <div className="space-y-3">
-                    <h2 className="text-2xl font-bold tracking-tight">
-                      <Link href={`/${path}`}>
-                        {title}
-                      </Link>
-                    </h2>
-                    {tags && tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-xs font-medium uppercase tracking-wide text-pink-500 dark:text-pink-400"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                  <div className="space-y-3 xl:col-span-3">
+                    <div>
+                      <h3 className="text-2xl leading-8 font-bold tracking-tight">
+                        <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
+                          {title}
+                        </Link>
+                      </h3>
+                      <div className="flex flex-wrap">
+                        {tags?.map((tag) => <Tag key={tag} text={tag} />)}
                       </div>
-                    )}
+                    </div>
                     <div className="prose max-w-none text-gray-500 dark:text-gray-400">
                       {summary}
                     </div>
