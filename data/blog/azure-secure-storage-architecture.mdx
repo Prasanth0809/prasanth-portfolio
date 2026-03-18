@@ -1,159 +1,204 @@
 ---
-title: "Secure Azure Storage Architecture"
-date: "2026-03-04"
-summary: "Designing a secure Azure Storage architecture using private endpoints, RBAC, and encryption."
+title: "CloudGuard – Azure Secure Cloud Infrastructure"
+date: "2026-03-18"
+summary: "Enterprise-style Azure security project built across 6 phases — covering secure networking, centralized monitoring, automated alerting, custom RBAC governance, Azure Policy enforcement, and security posture management with Microsoft Defender for Cloud."
 github: "https://github.com/Prasanth0809/azure-secure-cloud-infrastructure"
 ---
 
-In this project, I designed a secure Azure Storage architecture focused on data protection, network isolation, and controlled access.
+In this project, I designed and implemented an enterprise-grade Azure cloud security environment from scratch — simulating how real organizations protect their cloud infrastructure using Azure-native services.
+
+The project is structured across 6 phases, each building on the previous one, covering the full cloud security lifecycle from network segmentation to compliance management.
 
 ## Project Repository
 
-You can view the full implementation, architecture documentation, and deployment screenshots on GitHub.
+Full implementation, screenshots, KQL queries, and architecture documentation are available on GitHub.
 
 [View on GitHub →](https://github.com/Prasanth0809/azure-secure-cloud-infrastructure)
 
-## Key Architecture Highlights
-
-- Designed a secure Azure Storage architecture using Private Endpoints and RBAC
-- Isolated resources with Azure Virtual Network and Network Security Groups
-- Enabled encryption at rest for protected data storage
-- Documented deployment and networking configuration with Azure portal screenshots
-
-## Azure Services Used
-
-- Azure Storage Account
-- Azure Virtual Network (VNet)
-- Network Security Groups (NSG)
-- Azure Monitor
-- Log Analytics Workspace
-- Azure RBAC
-- Microsoft Defender for Cloud
-
 ## Architecture Diagram
 
-![Secure Azure Storage Architecture](/static/images/azure-secure-storage-architecture.png)
-
-## Implementation Summary
-
-This project demonstrates the implementation of a secure Azure Storage architecture in a phased approach.
-
-### Completed Work
-
-- Phase 1 — Storage Account Deployment
-- Phase 2 — Network Security Configuration
-
-Additional security enhancements, such as Private Endpoints, advanced RBAC validation, and expanded data protection controls, are planned as future improvements.
+![CloudGuard Azure Secure Infrastructure Architecture](/static/images/azure-secure-storage-architecture.png)
 
 ## Architecture Overview
 
-The architecture includes:
+```
+Azure Subscription
+        │
+        ├── Resource Group (CloudGuard-Sec-RG)
+        │         ├── Virtual Network (10.0.0.0/16)
+        │         │         ├── Public Subnet (10.0.1.0/24)
+        │         │         └── Private Subnet (10.0.2.0/24)
+        │         │                   └── NSG (IP Whitelisting /32)
+        │         └── Storage Account
+        │
+        ├── Log Analytics Workspace (law-phase3-monitoring)
+        │         └── Diagnostic Settings → Activity Logs → KQL Queries
+        │
+        ├── Azure Monitor
+        │         └── Alert Rules → Action Groups → Email Notifications
+        │
+        ├── Azure RBAC
+        │         └── Custom Role (phase5-monitor-reader)
+        │
+        ├── Azure Policy
+        │         └── Require Environment Tag (Subscription scope)
+        │
+        └── Microsoft Defender for Cloud
+                  └── Secure Score + Compliance Dashboard
+```
 
-- Azure Storage Account
+## Azure Services Used
+
 - Azure Virtual Network (VNet)
-- Private Endpoints
 - Network Security Groups (NSG)
-- Role-Based Access Control (RBAC)
-- Encryption at rest
+- Log Analytics Workspace
+- Azure Monitor
+- KQL (Kusto Query Language)
+- Alert Rules & Action Groups
+- Azure RBAC (Custom Roles)
+- Azure Policy
+- Microsoft Defender for Cloud
 
 ## Architecture Design Principles
 
-The architecture was designed based on key cloud security and reliability principles.
+**Least Privilege Access**
+Access to resources is controlled using custom RBAC roles to ensure users only have the minimum permissions required for their roles — no write or delete access unless explicitly needed.
 
-**Least Privilege Access**  
-Access to resources is controlled using Role-Based Access Control (RBAC) to ensure users only have the permissions required for their roles.
+**Network Isolation**
+Azure Virtual Networks and Network Security Groups isolate the infrastructure and control inbound and outbound traffic using strict IP whitelisting.
 
-**Network Isolation**  
-Azure Virtual Networks and Network Security Groups are used to isolate the storage infrastructure and control inbound and outbound communication.
+**Defense in Depth**
+Multiple layers of protection are implemented — network security, identity governance, monitoring, automated alerting, and compliance enforcement.
 
-**Defense in Depth**  
-Multiple layers of protection are implemented, including network security, RBAC permissions, encryption, and monitoring.
+**Operational Visibility**
+Azure Monitor and Log Analytics provide continuous visibility into Azure activity, enabling faster detection of suspicious or unusual operations using KQL queries.
 
-**Operational Visibility**  
-Azure Monitor and Log Analytics provide continuous visibility into system behavior, enabling faster detection of unusual activity.
+**Governance Enforcement**
+Azure Policy enforces mandatory resource tagging at subscription scope, ensuring all deployed resources follow organizational standards.
 
-## Phase 1 — Storage Account Deployment
+---
 
-![Azure Storage Deployment Success](/static/images/storage-deployment-success.png)
+## Phase 1 & 2 — Infrastructure Setup & Network Security
 
-The Azure Storage Account was successfully deployed in the CloudGuard resource group.
+Built the foundational Azure environment with a dedicated Resource Group, Virtual Network with isolated public and private subnets, and a Storage Account. Configured Network Security Group rules to restrict inbound traffic using strict IP whitelisting (/32 CIDR) and attached the NSG to the private subnet.
 
-This deployment confirms that the secure storage foundation was established in Azure before implementing advanced controls such as Private Endpoints, RBAC, and encryption-related validation.
+**Resources Created:**
+- Resource Group: `CloudGuard-Sec-RG`
+- Virtual Network: `10.0.0.0/16` with public (`10.0.1.0/24`) and private (`10.0.2.0/24`) subnets
+- NSG with IP whitelisting (/32 CIDR)
+- Storage Account
+- Log Analytics Workspace
 
-## Phase 2 — Network Security Configuration
+**Key implementations:**
+- Subnet segmentation for network isolation
+- NSG inbound rules restricting SSH access to specific IPs only
+- Diagnostic settings enabled on NSG — logs streamed to Log Analytics
+- KQL queries to validate NSG log ingestion
+- Initial security posture review using Microsoft Defender for Cloud
 
-![Azure Virtual Network Configuration](/static/images/vnet-success.png)
+---
 
-A virtual network was configured to isolate the storage infrastructure and support secure communication paths.
+## Phase 3 — Cloud Security Monitoring & Log Analytics
 
-Network Security Groups (NSGs) were applied to control inbound and outbound traffic.
+Built a centralized monitoring pipeline by connecting Azure Activity Logs to a dedicated Log Analytics Workspace. Configured diagnostic settings to stream administrative, security, policy, and health events into the workspace. Used KQL to investigate activity events and detect resource modifications.
 
-![NSG Configuration](/static/images/nsg-overview.png)
+**Resources Created:**
+- Resource Group: `rg-phase3-monitoring`
+- Log Analytics Workspace: `law-phase3-monitoring`
+- Diagnostic Setting: `activitylog-to-law`
 
-Security rules were configured to restrict access and allow only required communication paths within the Azure environment.
+**KQL Queries Used:**
 
-## Monitoring and Logging
+```kql
+-- Recent activity investigation
+AzureActivity
+| sort by TimeGenerated desc
+| limit 50
 
-To improve operational visibility, Azure Monitor diagnostic settings were enabled for the storage account.
+-- Resource modification monitoring
+AzureActivity
+| where OperationNameValue contains "write"
+| sort by TimeGenerated desc
+| limit 20
 
-Key configurations included:
+-- Failed operations detection
+AzureActivity
+| where ActivityStatusValue == "Failed"
+| sort by TimeGenerated desc
+```
 
-- Diagnostic logs sent to Log Analytics
-- Storage transaction metrics monitoring
-- Centralized monitoring through Azure Monitor
-- Query validation using Log Analytics Workspace
+> **Real-world note:** After configuring diagnostic settings, Azure required several minutes to ingest logs before queries returned results. This ingestion delay is expected behaviour in production environments — and knowing this demonstrates genuine hands-on monitoring experience.
 
-This setup improves visibility into storage operations and helps detect abnormal behavior.
+---
 
-## Alerting and Notifications
+## Phase 4 — Alerting & Incident Notifications
 
-Azure Monitor alert rules were configured to proactively detect unusual activity.
+Configured Azure Monitor Alert Rules to automatically detect administrative error events. Created an Action Group to send email notifications when alerts fire — completing the full incident detection-to-notification pipeline.
 
-Alert configuration included:
+**Alert Rule Configuration:**
 
-- Creation of an Azure Monitor Action Group
-- Email notifications for operational alerts
-- Alert rules for abnormal storage transaction spikes
-- Automated alert triggering based on defined thresholds
+| Setting | Value |
+|---|---|
+| Alert Rule Name | `phase4-admin-change-alert` |
+| Signal Type | Activity Log |
+| Category | Administrative |
+| Event Level | Error |
+| Scope | Azure Subscription |
+| Action Group | `ag-admin-alerts` |
+| Notification | Email |
 
-This ensures administrators are notified quickly when suspicious or unexpected activity occurs.
+This simulates a real enterprise incident response workflow where administrators are automatically notified when abnormal activity occurs in the Azure environment.
 
-## Security Validation
+---
 
-After deployment, the architecture was validated against Azure security best practices.
+## Phase 5 — Security & Governance (Custom RBAC + Azure Policy)
 
-Validation checks included:
+Implemented enterprise-grade access control by creating a custom RBAC role with least-privilege permissions. Enforced governance using Azure Policy to require mandatory resource tagging across the entire subscription.
 
-- Role-Based Access Control (RBAC) verification
-- Network isolation through Azure Virtual Network
-- Network Security Group rule enforcement
-- Microsoft Defender for Cloud security recommendations
+**Custom RBAC Role — `phase5-monitor-reader`:**
 
-These controls help ensure the storage environment aligns with Azure cloud security and governance standards.
+| Permission | Purpose |
+|---|---|
+| `Microsoft.Resources/subscriptions/resourceGroups/read` | View resource groups |
+| `Microsoft.Resources/resources/read` | View Azure resources |
 
-## Key Security Features
+Users assigned this role can view resources but cannot create, modify, or delete any infrastructure — enforcing strict least-privilege access.
 
-### Private Endpoints
+**Azure Policy Governance:**
 
-Private Endpoints ensure that the storage account is only accessible through the Azure virtual network instead of broad public exposure.
+| Setting | Value |
+|---|---|
+| Policy | `Require a tag on resources` |
+| Tag Enforced | `Environment` |
+| Scope | Azure Subscription |
+| Effect | Deny non-compliant resources |
 
-### RBAC
+This ensures every resource deployed in the subscription includes the mandatory `Environment` tag — enabling cost tracking, governance compliance, and environment classification.
 
-Role-Based Access Control ensures that only authorized users are granted access to storage resources based on least-privilege principles.
+---
 
-### Encryption
+## Phase 6 — Microsoft Defender for Cloud (Security Posture)
 
-Azure Storage automatically encrypts data at rest using Microsoft-managed keys to strengthen data protection.
+Used Microsoft Defender for Cloud to assess and improve the overall security posture of the Azure environment. Reviewed the Secure Score, investigated security recommendations, and mapped controls against the Azure Security Benchmark compliance framework.
+
+**Key Activities:**
+- Reviewed Secure Score across the subscription
+- Investigated individual security recommendations
+- Mapped controls to Azure Security Benchmark framework
+- Documented compliance posture and improvement areas
+
+---
 
 ## Outcome
 
-This implementation achieved the following results:
+This project demonstrates practical experience across the full Azure security lifecycle:
 
-- Deployed a secure Azure Storage foundation inside the CloudGuard resource group
-- Configured network isolation using Azure Virtual Network and Network Security Groups
-- Restricted inbound and outbound communication paths using NSG rules
-- Enabled centralized monitoring using Azure Monitor and Log Analytics
-- Configured alerting for abnormal storage-related activity
-- Validated the environment against Azure security best practices using Microsoft Defender for Cloud
+- Designed and deployed a secure Azure network with VNet segmentation and NSG traffic control
+- Built a centralized monitoring pipeline using Log Analytics and Diagnostic Settings
+- Investigated security events using KQL queries in real Azure environments
+- Configured automated incident detection with Azure Monitor Alert Rules
+- Implemented least-privilege access control using custom RBAC roles
+- Enforced subscription-wide governance using Azure Policy
+- Assessed and documented security posture using Microsoft Defender for Cloud
 
-This project demonstrates practical experience designing and implementing secure cloud infrastructure using Microsoft Azure.
+This is real Azure Administrator work — built hands-on, documented thoroughly, and designed to reflect enterprise cloud security practices.
