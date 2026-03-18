@@ -18,6 +18,7 @@ export default async function Page(props: { params: Promise<{ page: string }> })
       (post) =>
         post.title !== 'Secure Azure Storage Architecture' &&
         post.title !== 'Azure Monitor & Log Analytics Setup' &&
+        post.title !== 'CloudGuard \u2013 Azure Secure Cloud Infrastructure' &&
         !post.draft
     )
   )
