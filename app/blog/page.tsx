@@ -10,9 +10,7 @@ export const metadata = genPageMetadata({ title: 'Case Studies' })
 export default async function BlogPage(props: { searchParams: Promise<{ page: string }> }) {
   const posts = allCoreContent(
     sortPosts(allBlogs).filter(
-      (post) =>
-        post.title !== 'Secure Azure Storage Architecture' &&
-        !post.draft
+      (post) => post.title !== 'Secure Azure Storage Architecture' && !post.draft
     )
   )
   const pageNumber = 1
@@ -32,12 +30,3 @@ export default async function BlogPage(props: { searchParams: Promise<{ page: st
     />
   )
 }
-```
-
-This will hide CloudGuard from page 1. Then also update the tag className in `ListLayoutWithTags.tsx` from:
-```
-className="text-xs font-medium uppercase tracking-wide text-pink-500 dark:text-pink-400"
-```
-To:
-```
-className="mr-3 text-sm font-medium uppercase text-pink-500 dark:text-pink-400"
