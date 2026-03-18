@@ -10,7 +10,10 @@ export const metadata = genPageMetadata({ title: 'Case Studies' })
 export default async function BlogPage(props: { searchParams: Promise<{ page: string }> }) {
   const posts = allCoreContent(
     sortPosts(allBlogs).filter(
-      (post) => post.title !== 'Secure Azure Storage Architecture' && !post.draft
+      (post) =>
+        post.title !== 'Secure Azure Storage Architecture' &&
+        post.title !== 'CloudGuard \u2013 Azure Secure Cloud Infrastructure' &&
+        !post.draft
     )
   )
   const pageNumber = 1
