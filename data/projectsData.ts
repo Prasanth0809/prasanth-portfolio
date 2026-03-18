@@ -4,7 +4,7 @@ const projectsData = [
     description:
       'Enterprise-style Azure security project built across 6 phases — secure networking, centralized monitoring, automated alerting, custom RBAC governance, Azure Policy enforcement, and Defender for Cloud posture management.',
     imgSrc: '/static/images/azure-secure-storage-architecture.png',
-    href: '/blog/azure-secure-storage-architecture',
+   href: 'https://github.com/Prasanth0809/azure-secure-cloud-infrastructure',
   },
 ]
 
