@@ -71,6 +71,7 @@ export default function ListLayout({
 }: ListLayoutProps) {
   const [searchValue, setSearchValue] = useState('')
   const filteredBlogPosts = posts.filter((post) => {
+    if (post.draft) return false
     const searchContent = post.title + post.summary + post.tags?.join(' ')
     return searchContent.toLowerCase().includes(searchValue.toLowerCase())
   })
@@ -85,11 +86,9 @@ export default function ListLayout({
           <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
             {title}
           </h1>
-
           <p className="mt-2 max-w-2xl text-base text-gray-500 dark:text-gray-400">
             Real-world Azure infrastructure projects with detailed implementation walkthroughs.
           </p>
-
           <div className="relative max-w-lg">
             <label>
               <span className="sr-only">Search case studies</span>
@@ -117,7 +116,6 @@ export default function ListLayout({
             </svg>
           </div>
         </div>
-
         <ul>
           {!filteredBlogPosts.length && 'No case studies found.'}
           {displayPosts.map((post) => {
@@ -152,7 +150,6 @@ export default function ListLayout({
           })}
         </ul>
       </div>
-
       {pagination && pagination.totalPages > 1 && !searchValue && (
         <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
       )}
