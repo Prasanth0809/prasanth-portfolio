@@ -207,7 +207,7 @@ export default function Home() {
       </div>
 
       <nav className="pnav">
-        <a href="#" className="pnav-logo"><div className="logo-icon">☁</div>Prasanth</a>
+        <a href="#" className="pnav-logo">Prasanth Panneer Selvam</a>
         <ul className="pnav-links">
           <li><a href="#about">About</a></li>
           <li><a href="#projects">Projects</a></li>
