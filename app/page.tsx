@@ -280,6 +280,7 @@ export default function Home() {
         <div className="proj-grid">
           <a href="https://github.com/Prasanth0809/azure-secure-cloud-infrastructure" target="_blank" className="proj-card">
             <div className="proj-bg">
+              <img src="/cloudguard-preview.png" style={{width:'100%',height:'100%',objectFit:'cover',position:'absolute',opacity:0.6}} alt="CloudGuard" />
               <div className="az-grid">
                 <div className="az-tile"><div className="az-label">VNet</div><div className="az-val">3</div><div className="az-bar"><div className="az-fill" style={{width:'75%'}} /></div></div>
                 <div className="az-tile"><div className="az-label">NSG Rules</div><div className="az-val">12</div><div className="az-bar"><div className="az-fill" style={{width:'60%'}} /></div></div>
