@@ -281,18 +281,6 @@ export default function Home() {
           <a href="https://github.com/Prasanth0809/azure-secure-cloud-infrastructure" target="_blank" className="proj-card">
             <div className="proj-bg">
               <img src="/cloudguard-preview.png" style={{width:'100%',height:'100%',objectFit:'cover',position:'absolute',opacity:0.6}} alt="CloudGuard" />
-              <div className="az-grid">
-                <div className="az-tile"><div className="az-label">VNet</div><div className="az-val">3</div><div className="az-bar"><div className="az-fill" style={{width:'75%'}} /></div></div>
-                <div className="az-tile"><div className="az-label">NSG Rules</div><div className="az-val">12</div><div className="az-bar"><div className="az-fill" style={{width:'60%'}} /></div></div>
-                <div className="az-tile"><div className="az-label">RBAC</div><div className="az-val">5</div><div className="az-dot" /></div>
-                <div className="az-tile"><div className="az-label">Alerts</div><div className="az-val">4</div><div className="az-dot" /></div>
-                <div className="az-tile" style={{gridColumn:'span 2'}}><div className="az-label">Log Analytics / KQL</div><div className="az-val">KQL</div><div className="az-bar"><div className="az-fill" style={{width:'88%'}} /></div></div>
-                <div className="az-tile"><div className="az-label">Policies</div><div className="az-val">6+</div><div className="az-dot" /></div>
-                <div className="az-tile"><div className="az-label">Defender</div><div className="az-val">ON</div><div className="az-dot" /></div>
-                <div className="az-tile" style={{gridColumn:'span 2'}}><div className="az-label">Compliance Score</div><div className="az-val">94%</div><div className="az-bar"><div className="az-fill" style={{width:'94%'}} /></div></div>
-                <div className="az-tile"><div className="az-label">Phase</div><div className="az-val">6</div><div className="az-dot" /></div>
-                <div className="az-tile"><div className="az-label">Region</div><div className="az-val">IN</div><div className="az-dot" /></div>
-              </div>
             </div>
             <div className="proj-overlay"><span className="proj-cta-btn">View on GitHub ↗</span></div>
             <div className="proj-info">
