@@ -1,9 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [isDark, setIsDark] = useState(true)
+  const [activeStep, setActiveStep] = useState(0)
+  const stepsRef = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -13,6 +16,49 @@ export default function Home() {
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
     return () => observer.disconnect()
   }, [])
+
+  // Scroll reveal highlight for steps
+  useEffect(() => {
+    const stepObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const idx = stepsRef.current.findIndex(el => el === e.target)
+            if (idx !== -1) setActiveStep(idx)
+          }
+        })
+      },
+      { threshold: 0.5, rootMargin: '-10% 0px -10% 0px' }
+    )
+    stepsRef.current.forEach(el => { if (el) stepObserver.observe(el) })
+    return () => stepObserver.disconnect()
+  }, [])
+
+  const toggleTheme = () => {
+    const newIsDark = !isDark
+    setIsDark(newIsDark)
+    if (!newIsDark) {
+      document.documentElement.style.setProperty('--bg', '#f5f5f0')
+      document.documentElement.style.setProperty('--bg2', '#eeede8')
+      document.documentElement.style.setProperty('--bg3', '#e8e7e2')
+      document.documentElement.style.setProperty('--fg', '#0a0a0a')
+      document.documentElement.style.setProperty('--muted', 'rgba(10,10,10,0.55)')
+      document.documentElement.style.setProperty('--muted2', 'rgba(10,10,10,0.28)')
+      document.documentElement.style.setProperty('--border', 'rgba(10,10,10,0.1)')
+      document.documentElement.style.setProperty('--border2', 'rgba(10,10,10,0.2)')
+      document.documentElement.style.setProperty('--nav-bg', 'rgba(245,245,240,0.85)')
+    } else {
+      document.documentElement.style.setProperty('--bg', '#090909')
+      document.documentElement.style.setProperty('--bg2', '#111111')
+      document.documentElement.style.setProperty('--bg3', '#161616')
+      document.documentElement.style.setProperty('--fg', '#f0ede8')
+      document.documentElement.style.setProperty('--muted', 'rgba(240,237,232,0.42)')
+      document.documentElement.style.setProperty('--muted2', 'rgba(240,237,232,0.18)')
+      document.documentElement.style.setProperty('--border', 'rgba(240,237,232,0.09)')
+      document.documentElement.style.setProperty('--border2', 'rgba(240,237,232,0.15)')
+      document.documentElement.style.setProperty('--nav-bg', 'rgba(9,9,9,0.8)')
+    }
+  }
 
   const toggleFaq = (i: number) => setOpenFaq(openFaq === i ? null : i)
 
@@ -42,9 +88,9 @@ export default function Home() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
-        :root{--bg:#090909;--bg2:#111111;--bg3:#161616;--fg:#f0ede8;--muted:rgba(240,237,232,0.42);--muted2:rgba(240,237,232,0.18);--border:rgba(240,237,232,0.09);--border2:rgba(240,237,232,0.15)}
+        :root{--bg:#090909;--bg2:#111111;--bg3:#161616;--fg:#f0ede8;--muted:rgba(240,237,232,0.42);--muted2:rgba(240,237,232,0.18);--border:rgba(240,237,232,0.09);--border2:rgba(240,237,232,0.15);--nav-bg:rgba(9,9,9,0.8)}
         html{scroll-behavior:smooth}
-        body{background:var(--bg)!important;color:var(--fg)!important;font-family:'Inter',sans-serif!important;overflow-x:hidden}
+        body{background:var(--bg)!important;color:var(--fg)!important;font-family:'Inter',sans-serif!important;overflow-x:hidden;transition:background 0.4s ease,color 0.4s ease}
         header,.header,nav:not(.pnav){display:none!important}
         .noise{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:0.028}
         .smoke-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
@@ -54,13 +100,15 @@ export default function Home() {
         .blob3{width:400px;height:400px;background:radial-gradient(circle,rgba(55,55,55,0.4) 0%,transparent 70%);bottom:5%;left:30%;opacity:0.15;animation-delay:-14s}
         @keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(40px,-30px) scale(1.05)}50%{transform:translate(-20px,50px) scale(0.95)}75%{transform:translate(30px,20px) scale(1.03)}}
 
-        .pnav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:20px 52px;background:rgba(9,9,9,0.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+        .pnav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:20px 52px;background:var(--nav-bg);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);transition:background 0.4s ease}
         .pnav-logo{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--fg);text-decoration:none;letter-spacing:-0.02em}
         .logo-icon{width:28px;height:28px;border:1px solid var(--border2);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--bg3)}
         .pnav-links{display:flex;align-items:center;gap:36px;list-style:none}
         .pnav-links a{font-size:13px;font-weight:400;color:var(--muted);text-decoration:none;letter-spacing:0.01em;transition:color 0.2s}
         .pnav-links a:hover{color:var(--fg)}
-        .btn-nav{background:var(--fg)!important;color:var(--bg)!important;padding:9px 20px;border-radius:100px;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;text-decoration:none}
+        .btn-nav{background:var(--fg)!important;color:var(--bg)!important;padding:9px 20px;border-radius:100px;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;text-decoration:none;transition:background 0.4s,color 0.4s}
+        .theme-btn{background:none;border:1px solid var(--border2);border-radius:100px;padding:7px 14px;color:var(--fg);font-size:13px;cursor:none;transition:all 0.3s ease;font-family:'Inter',sans-serif}
+        .theme-btn:hover{border-color:var(--muted);background:rgba(128,128,128,0.1)}
 
         .hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 60px}
         .hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border2);border-radius:100px;padding:7px 16px;font-size:13px;color:var(--muted);margin-bottom:40px;backdrop-filter:blur(10px);background:rgba(255,255,255,0.03);animation:fadeUp 0.8s ease both}
@@ -70,9 +118,9 @@ export default function Home() {
         .hero-h1 .dim{color:var(--muted2)}
         .hero-sub{font-size:16px;color:var(--muted);max-width:460px;line-height:1.7;margin-bottom:44px;animation:fadeUp 0.8s ease 0.24s both}
         .hero-btns{display:flex;gap:12px;animation:fadeUp 0.8s ease 0.36s both}
-        .btn-solid{background:var(--fg)!important;color:var(--bg)!important;padding:14px 28px;border-radius:100px;font-size:14px;font-weight:600;font-family:'Sora',sans-serif;text-decoration:none;letter-spacing:-0.01em;transition:transform 0.2s;border:none}
+        .btn-solid{background:var(--fg)!important;color:var(--bg)!important;padding:14px 28px;border-radius:100px;font-size:14px;font-weight:600;font-family:'Sora',sans-serif;text-decoration:none;letter-spacing:-0.01em;transition:transform 0.2s,background 0.4s,color 0.4s;border:none}
         .btn-solid:hover{transform:scale(1.03)}
-        .btn-outline{background:transparent!important;color:var(--fg)!important;padding:14px 28px;border-radius:100px;font-size:14px;font-weight:500;font-family:'Sora',sans-serif;text-decoration:none;letter-spacing:-0.01em;border:1px solid var(--border2)!important;transition:transform 0.2s,border-color 0.2s}
+        .btn-outline{background:transparent!important;color:var(--fg)!important;padding:14px 28px;border-radius:100px;font-size:14px;font-weight:500;font-family:'Sora',sans-serif;text-decoration:none;letter-spacing:-0.01em;border:1px solid var(--border2)!important;transition:transform 0.2s,border-color 0.2s,color 0.4s}
         .btn-outline:hover{transform:scale(1.03);border-color:rgba(240,237,232,0.35)!important}
         .scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:20px;font-size:12px;color:var(--muted2);letter-spacing:0.05em;animation:fadeUp 0.8s ease 0.5s both}
         .scroll-line{width:70px;height:1px;background:var(--border)}
@@ -117,13 +165,6 @@ export default function Home() {
         .proj-card:first-child{border-radius:12px 0 0 0}
         .proj-card:nth-child(2){border-radius:0 12px 0 0}
         .proj-bg{width:100%;height:100%;background:var(--bg2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-        .az-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:1px;padding:24px;opacity:0.4}
-        .az-tile{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:4px;display:flex;flex-direction:column;padding:10px 12px;gap:6px}
-        .az-label{font-size:9px;color:rgba(240,237,232,0.3);font-weight:500;letter-spacing:0.06em;text-transform:uppercase}
-        .az-val{font-size:18px;font-weight:700;font-family:'Sora',sans-serif;color:rgba(240,237,232,0.5);letter-spacing:-0.03em}
-        .az-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:auto}
-        .az-fill{height:100%;background:rgba(240,237,232,0.2);border-radius:2px}
-        .az-dot{width:6px;height:6px;border-radius:50%;background:rgba(240,237,232,0.25);margin-top:auto}
         .proj-overlay{position:absolute;inset:0;background:rgba(9,9,9,0.75);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s ease}
         .proj-card:hover .proj-overlay{opacity:1}
         .proj-cta-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(240,237,232,0.15);backdrop-filter:blur(10px);border:1px solid rgba(240,237,232,0.3);color:var(--fg);padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;text-decoration:none}
@@ -155,8 +196,9 @@ export default function Home() {
         .st-inner.rev{animation-direction:reverse}
         .st-item{display:inline-flex;align-items:center;gap:8px;margin:0 6px;border:1px solid var(--border2);border-radius:100px;padding:7px 16px;font-size:12px;color:rgba(240,237,232,0.5);white-space:nowrap;background:rgba(255,255,255,0.03)}
 
+        /* ANIMATED TIMELINE PROCESS */
         .process-split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
-        .process-img{width:100%;aspect-ratio:3/4;background:var(--bg3);border-radius:12px;border:1px solid var(--border);overflow:hidden}
+        .process-img{width:100%;aspect-ratio:3/4;background:var(--bg3);border-radius:12px;border:1px solid var(--border);overflow:hidden;position:sticky;top:100px}
         .terminal{width:100%;height:100%;background:#0d0d0d;padding:20px;font-family:monospace;font-size:11px;line-height:1.7;overflow:hidden}
         .term-hdr{display:flex;gap:6px;margin-bottom:16px}
         .td{width:10px;height:10px;border-radius:50%}
@@ -166,19 +208,26 @@ export default function Home() {
         .tl .c{color:rgba(240,237,232,0.6)}
         .tl .o{color:rgba(240,237,232,0.15)}
         .tl .ok{color:#28ca41;opacity:0.7}
-        .steps{display:flex;flex-direction:column;gap:2px}
-        .step-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:24px 24px 24px 20px;position:relative}
-        .step-num{position:absolute;top:20px;right:20px;font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:rgba(240,237,232,0.06);letter-spacing:-0.04em}
-        .step-icon{font-size:20px;margin-bottom:12px}
-        .step-title{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px;color:var(--fg)}
-        .step-desc{font-size:13px;color:var(--muted);line-height:1.65}
+
+        /* Scroll reveal steps */
+        .steps{display:flex;flex-direction:column;gap:0}
+        .step-card{padding:32px 24px;border-bottom:1px solid var(--border);position:relative;transition:all 0.4s ease;opacity:0.28;transform:translateY(8px)}
+        .step-card.active{opacity:1;transform:translateY(0)}
+        .step-card:first-child{border-top:1px solid var(--border)}
+        .step-header{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+        .step-num-badge{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:var(--muted2);letter-spacing:0.08em;border:1px solid var(--border2);border-radius:100px;padding:3px 10px;transition:all 0.4s}
+        .step-card.active .step-num-badge{color:var(--fg);border-color:var(--fg)}
+        .step-icon{font-size:18px}
+        .step-title{font-family:'Sora',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.02em;color:var(--fg)}
+        .step-desc{font-size:13px;color:var(--muted);line-height:1.7;max-height:0;overflow:hidden;transition:max-height 0.4s ease,opacity 0.4s ease;opacity:0}
+        .step-card.active .step-desc{max-height:100px;opacity:1}
 
         .faq-split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
         .faq-h{font-family:'Sora',sans-serif;font-size:clamp(52px,6vw,80px);font-weight:700;letter-spacing:-0.05em;line-height:0.95;margin-bottom:16px;color:var(--fg)}
         .faq-sub{font-size:15px;color:var(--muted);line-height:1.7}
         .faq-list{display:flex;flex-direction:column;gap:2px}
         .faq-item{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg3)}
-        .faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;font-size:14px;font-weight:500;color:var(--fg);background:none;border:none;cursor:pointer;text-align:left;gap:16px;transition:background 0.2s;font-family:'Inter',sans-serif}
+        .faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;font-size:14px;font-weight:500;color:var(--fg);background:none;border:none;cursor:none;text-align:left;gap:16px;transition:background 0.2s;font-family:'Inter',sans-serif}
         .faq-q:hover{background:rgba(255,255,255,0.02)}
         .faq-icon{width:22px;height:22px;flex-shrink:0;border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--muted);transition:transform 0.3s}
         .faq-icon.open{transform:rotate(45deg)}
@@ -213,6 +262,11 @@ export default function Home() {
           <li><a href="#projects">Projects</a></li>
           <li><a href="#capabilities">Capabilities</a></li>
           <li><a href="#contact">Contact</a></li>
+          <li>
+            <button onClick={toggleTheme} className="theme-btn">
+              {isDark ? '☀️ Light' : '🌙 Dark'}
+            </button>
+          </li>
           <li><a href="/static/resume.pdf" target="_blank" className="btn-nav">Resume ↗</a></li>
         </ul>
       </nav>
@@ -375,11 +429,17 @@ export default function Home() {
               <a href="#projects" className="btn-outline" style={{fontSize:13,padding:'11px 22px'}}>See Projects</a>
             </div>
             <div className="steps">
-              {steps.map(s=>(
-                <div key={s.n} className="step-card">
-                  <div className="step-num">{s.n}</div>
-                  <div className="step-icon">{s.icon}</div>
-                  <div className="step-title">{s.title}</div>
+              {steps.map((s, idx) => (
+                <div
+                  key={s.n}
+                  ref={el => { stepsRef.current[idx] = el }}
+                  className={`step-card${activeStep === idx ? ' active' : ''}`}
+                >
+                  <div className="step-header">
+                    <span className="step-num-badge">0{s.n}</span>
+                    <span className="step-icon">{s.icon}</span>
+                    <div className="step-title">{s.title}</div>
+                  </div>
                   <div className="step-desc">{s.desc}</div>
                 </div>
               ))}
