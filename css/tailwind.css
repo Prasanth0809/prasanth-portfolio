@@ -177,3 +177,6 @@ input:-webkit-autofill:focus {
   margin-left: 0 !important;
   padding-right: 0 !important;
 }
+* {
+  cursor: none;
+}
