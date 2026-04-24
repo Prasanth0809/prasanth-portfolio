@@ -28,7 +28,7 @@ export default function Home() {
           }
         })
       },
-      { threshold: 0.5, rootMargin: '-10% 0px -10% 0px' }
+      { threshold: 0.3, rootMargin: '0px 0px -20% 0px' }
     )
     stepsRef.current.forEach(el => { if (el) stepObserver.observe(el) })
     return () => stepObserver.disconnect()
@@ -131,7 +131,7 @@ export default function Home() {
         .ticker-wrap{position:relative;z-index:1;border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;background:rgba(255,255,255,0.015);padding:14px 0}
         .ticker-row{display:flex;overflow:hidden}
         .ticker-inner{display:flex;animation:tickRoll 28s linear infinite;width:max-content}
-        .t-item{display:flex;align-items:center;gap:28px;padding:0 32px;font-size:13px;color:rgba(240,237,232,0.55);white-space:nowrap;letter-spacing:0.03em}
+        .t-item{display:flex;align-items:center;gap:28px;padding:0 32px;font-size:13px;color:var(--muted);white-space:nowrap;letter-spacing:0.03em}
         @keyframes tickRoll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
         .section{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:100px 52px}
