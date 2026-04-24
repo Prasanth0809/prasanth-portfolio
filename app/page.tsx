@@ -262,11 +262,6 @@ export default function Home() {
           <li><a href="#projects">Projects</a></li>
           <li><a href="#capabilities">Capabilities</a></li>
           <li><a href="#contact">Contact</a></li>
-          <li>
-            <button onClick={toggleTheme} className="theme-btn">
-              {isDark ? '☀️ Light' : '🌙 Dark'}
-            </button>
-          </li>
           <li><a href="/static/resume.pdf" target="_blank" className="btn-nav">Resume ↗</a></li>
         </ul>
       </nav>
