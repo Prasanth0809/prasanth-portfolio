@@ -1,12 +1,11 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const [isDark, setIsDark] = useState(true)
-  const [activeStep, setActiveStep] = useState(0)
-  const stepsRef = useRef<(HTMLDivElement | null)[]>([])
+  const [activeStep, setActiveStep] = useState<number | null>(null)
+  const [heroReady, setHeroReady] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -14,51 +13,9 @@ export default function Home() {
       { threshold: 0.08 }
     )
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
+    const t = setTimeout(() => setHeroReady(true), 100)
+    return () => { observer.disconnect(); clearTimeout(t) }
   }, [])
-
-  // Scroll reveal highlight for steps
-  useEffect(() => {
-    const stepObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            const idx = stepsRef.current.findIndex(el => el === e.target)
-            if (idx !== -1) setActiveStep(idx)
-          }
-        })
-      },
-      { threshold: 0.1, rootMargin: '-30% 0px -30% 0px' }
-    )
-    stepsRef.current.forEach(el => { if (el) stepObserver.observe(el) })
-    return () => stepObserver.disconnect()
-  }, [])
-
-  const toggleTheme = () => {
-    const newIsDark = !isDark
-    setIsDark(newIsDark)
-    if (!newIsDark) {
-      document.documentElement.style.setProperty('--bg', '#f5f5f0')
-      document.documentElement.style.setProperty('--bg2', '#eeede8')
-      document.documentElement.style.setProperty('--bg3', '#e8e7e2')
-      document.documentElement.style.setProperty('--fg', '#0a0a0a')
-      document.documentElement.style.setProperty('--muted', 'rgba(10,10,10,0.55)')
-      document.documentElement.style.setProperty('--muted2', 'rgba(10,10,10,0.28)')
-      document.documentElement.style.setProperty('--border', 'rgba(10,10,10,0.1)')
-      document.documentElement.style.setProperty('--border2', 'rgba(10,10,10,0.2)')
-      document.documentElement.style.setProperty('--nav-bg', 'rgba(245,245,240,0.85)')
-    } else {
-      document.documentElement.style.setProperty('--bg', '#090909')
-      document.documentElement.style.setProperty('--bg2', '#111111')
-      document.documentElement.style.setProperty('--bg3', '#161616')
-      document.documentElement.style.setProperty('--fg', '#f0ede8')
-      document.documentElement.style.setProperty('--muted', 'rgba(240,237,232,0.42)')
-      document.documentElement.style.setProperty('--muted2', 'rgba(240,237,232,0.18)')
-      document.documentElement.style.setProperty('--border', 'rgba(240,237,232,0.09)')
-      document.documentElement.style.setProperty('--border2', 'rgba(240,237,232,0.15)')
-      document.documentElement.style.setProperty('--nav-bg', 'rgba(9,9,9,0.8)')
-    }
-  }
 
   const toggleFaq = (i: number) => setOpenFaq(openFaq === i ? null : i)
 
@@ -88,9 +45,9 @@ export default function Home() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
-        :root{--bg:#090909;--bg2:#111111;--bg3:#161616;--fg:#f0ede8;--muted:rgba(240,237,232,0.42);--muted2:rgba(240,237,232,0.18);--border:rgba(240,237,232,0.09);--border2:rgba(240,237,232,0.15);--nav-bg:rgba(9,9,9,0.8)}
+        :root{--bg:#090909;--bg2:#111111;--bg3:#161616;--fg:#f0ede8;--muted:rgba(240,237,232,0.42);--muted2:rgba(240,237,232,0.18);--border:rgba(240,237,232,0.09);--border2:rgba(240,237,232,0.15)}
         html{scroll-behavior:smooth}
-        body{background:var(--bg)!important;color:var(--fg)!important;font-family:'Inter',sans-serif!important;overflow-x:hidden;transition:background 0.4s ease,color 0.4s ease}
+        body{background:var(--bg)!important;color:var(--fg)!important;font-family:'Inter',sans-serif!important;overflow-x:hidden}
         header,.header,nav:not(.pnav){display:none!important}
         .noise{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:0.028}
         .smoke-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
@@ -100,29 +57,35 @@ export default function Home() {
         .blob3{width:400px;height:400px;background:radial-gradient(circle,rgba(55,55,55,0.4) 0%,transparent 70%);bottom:5%;left:30%;opacity:0.15;animation-delay:-14s}
         @keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(40px,-30px) scale(1.05)}50%{transform:translate(-20px,50px) scale(0.95)}75%{transform:translate(30px,20px) scale(1.03)}}
 
-        .pnav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:20px 52px;background:var(--nav-bg);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);transition:background 0.4s ease}
+        .pnav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:20px 52px;background:rgba(9,9,9,0.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
         .pnav-logo{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--fg);text-decoration:none;letter-spacing:-0.02em}
-        .logo-icon{width:28px;height:28px;border:1px solid var(--border2);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--bg3)}
         .pnav-links{display:flex;align-items:center;gap:36px;list-style:none}
         .pnav-links a{font-size:13px;font-weight:400;color:var(--muted);text-decoration:none;letter-spacing:0.01em;transition:color 0.2s}
         .pnav-links a:hover{color:var(--fg)}
-        .btn-nav{background:var(--fg)!important;color:var(--bg)!important;padding:9px 20px;border-radius:100px;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;text-decoration:none;transition:background 0.4s,color 0.4s}
-        .theme-btn{background:none;border:1px solid var(--border2);border-radius:100px;padding:7px 14px;color:var(--fg);font-size:13px;cursor:none;transition:all 0.3s ease;font-family:'Inter',sans-serif}
-        .theme-btn:hover{border-color:var(--muted);background:rgba(128,128,128,0.1)}
+        .btn-nav{background:var(--fg)!important;color:var(--bg)!important;padding:9px 20px;border-radius:100px;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;text-decoration:none}
 
-        .hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 60px}
-        .hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border2);border-radius:100px;padding:7px 16px;font-size:13px;color:var(--muted);margin-bottom:40px;backdrop-filter:blur(10px);background:rgba(255,255,255,0.03);animation:fadeUp 0.8s ease both}
+        /* HERO HORIZONTAL WIPE */
+        .hero-wipe-wrap{position:relative;z-index:1;min-height:100vh;overflow:hidden}
+        .hero-wipe-panel{position:absolute;inset:0;background:var(--bg);transform-origin:right center;transition:transform 1.1s cubic-bezier(0.77,0,0.18,1);transform:scaleX(1);z-index:3}
+        .hero-wipe-panel.open{transform:scaleX(0)}
+        .hero{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 60px}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border2);border-radius:100px;padding:7px 16px;font-size:13px;color:var(--muted);margin-bottom:40px;backdrop-filter:blur(10px);background:rgba(255,255,255,0.03);opacity:0;transition:opacity 0.6s ease 1.2s}
+        .hero-badge.show{opacity:1}
         .badge-dot{width:7px;height:7px;border-radius:50%;background:var(--fg);animation:pulse 2s ease-in-out infinite}
         @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.8)}}
-        .hero-h1{font-family:'Sora',sans-serif;font-size:clamp(56px,9vw,120px);font-weight:700;line-height:0.93;letter-spacing:-0.045em;margin-bottom:28px;animation:fadeUp 0.8s ease 0.12s both;color:var(--fg)}
+        .hero-h1{font-family:'Sora',sans-serif;font-size:clamp(56px,9vw,120px);font-weight:700;line-height:0.93;letter-spacing:-0.045em;margin-bottom:28px;color:var(--fg);opacity:0;transform:translateY(20px);transition:opacity 0.7s ease 1.3s,transform 0.7s ease 1.3s}
+        .hero-h1.show{opacity:1;transform:translateY(0)}
         .hero-h1 .dim{color:var(--muted2)}
-        .hero-sub{font-size:16px;color:var(--muted);max-width:460px;line-height:1.7;margin-bottom:44px;animation:fadeUp 0.8s ease 0.24s both}
-        .hero-btns{display:flex;gap:12px;animation:fadeUp 0.8s ease 0.36s both}
-        .btn-solid{background:var(--fg)!important;color:var(--bg)!important;padding:14px 28px;border-radius:100px;font-size:14px;font-weight:600;font-family:'Sora',sans-serif;text-decoration:none;letter-spacing:-0.01em;transition:transform 0.2s,background 0.4s,color 0.4s;border:none}
+        .hero-sub{font-size:16px;color:var(--muted);max-width:460px;line-height:1.7;margin-bottom:44px;opacity:0;transition:opacity 0.6s ease 1.5s}
+        .hero-sub.show{opacity:1}
+        .hero-btns{display:flex;gap:12px;opacity:0;transition:opacity 0.6s ease 1.6s}
+        .hero-btns.show{opacity:1}
+        .btn-solid{background:var(--fg)!important;color:var(--bg)!important;padding:14px 28px;border-radius:100px;font-size:14px;font-weight:600;font-family:'Sora',sans-serif;text-decoration:none;letter-spacing:-0.01em;transition:transform 0.2s;border:none}
         .btn-solid:hover{transform:scale(1.03)}
-        .btn-outline{background:transparent!important;color:var(--fg)!important;padding:14px 28px;border-radius:100px;font-size:14px;font-weight:500;font-family:'Sora',sans-serif;text-decoration:none;letter-spacing:-0.01em;border:1px solid var(--border2)!important;transition:transform 0.2s,border-color 0.2s,color 0.4s}
+        .btn-outline{background:transparent!important;color:var(--fg)!important;padding:14px 28px;border-radius:100px;font-size:14px;font-weight:500;font-family:'Sora',sans-serif;text-decoration:none;letter-spacing:-0.01em;border:1px solid var(--border2)!important;transition:transform 0.2s,border-color 0.2s}
         .btn-outline:hover{transform:scale(1.03);border-color:rgba(240,237,232,0.35)!important}
-        .scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:20px;font-size:12px;color:var(--muted2);letter-spacing:0.05em;animation:fadeUp 0.8s ease 0.5s both}
+        .scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:20px;font-size:12px;color:var(--muted2);letter-spacing:0.05em;opacity:0;transition:opacity 0.6s ease 1.8s}
+        .scroll-hint.show{opacity:1}
         .scroll-line{width:70px;height:1px;background:var(--border)}
         .mouse{width:20px;height:30px;border:1.5px solid rgba(240,237,232,0.2);border-radius:10px;position:relative;flex-shrink:0}
         .mouse::after{content:'';position:absolute;width:2px;height:5px;background:var(--muted);border-radius:2px;left:50%;top:5px;transform:translateX(-50%);animation:scrollAnim 1.6s ease-in-out infinite}
@@ -131,7 +94,7 @@ export default function Home() {
         .ticker-wrap{position:relative;z-index:1;border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;background:rgba(255,255,255,0.015);padding:14px 0}
         .ticker-row{display:flex;overflow:hidden}
         .ticker-inner{display:flex;animation:tickRoll 28s linear infinite;width:max-content}
-        .t-item{display:flex;align-items:center;gap:28px;padding:0 32px;font-size:13px;color:var(--muted);white-space:nowrap;letter-spacing:0.03em}
+        .t-item{display:flex;align-items:center;gap:28px;padding:0 32px;font-size:13px;color:rgba(240,237,232,0.55);white-space:nowrap;letter-spacing:0.03em}
         @keyframes tickRoll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
         .section{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:100px 52px}
@@ -144,7 +107,7 @@ export default function Home() {
         .about-h2 .dim{color:var(--muted2)}
         .about-para{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:20px}
         .chips{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0}
-        .chip{border:1px solid var(--border2);border-radius:100px;padding:7px 15px;font-size:12px;color:rgba(240,237,232,0.55);transition:color 0.2s,border-color 0.2s;cursor:default}
+        .chip{border:1px solid var(--border2);border-radius:100px;padding:7px 15px;font-size:12px;color:var(--muted);transition:color 0.2s,border-color 0.2s;cursor:default}
         .chip:hover{color:var(--fg);border-color:rgba(240,237,232,0.3)}
         .exp-table{width:100%;margin-top:32px;border-top:1px solid var(--border)}
         .exp-row{display:grid;grid-template-columns:1fr 1fr auto;padding:16px 0;border-bottom:1px solid var(--border);font-size:13px}
@@ -196,10 +159,10 @@ export default function Home() {
         .st-inner.rev{animation-direction:reverse}
         .st-item{display:inline-flex;align-items:center;gap:8px;margin:0 6px;border:1px solid var(--border2);border-radius:100px;padding:7px 16px;font-size:12px;color:rgba(240,237,232,0.5);white-space:nowrap;background:rgba(255,255,255,0.03)}
 
-        /* ANIMATED TIMELINE PROCESS */
+        /* PROCESS — Basee scroll reveal style */
         .process-split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
-        .process-img{width:100%;aspect-ratio:3/4;background:var(--bg3);border-radius:12px;border:1px solid var(--border);overflow:hidden;position:sticky;top:100px}
-        .terminal{width:100%;height:100%;background:#0d0d0d;padding:20px;font-family:monospace;font-size:11px;line-height:1.7;overflow:hidden}
+        .process-sticky{position:sticky;top:100px}
+        .terminal{width:100%;background:#0d0d0d;border-radius:12px;border:1px solid var(--border);padding:20px;font-family:monospace;font-size:11px;line-height:1.7}
         .term-hdr{display:flex;gap:6px;margin-bottom:16px}
         .td{width:10px;height:10px;border-radius:50%}
         .td-r{background:#ff5f57}.td-y{background:#ffbd2e}.td-g{background:#28ca41}
@@ -209,18 +172,19 @@ export default function Home() {
         .tl .o{color:rgba(240,237,232,0.15)}
         .tl .ok{color:#28ca41;opacity:0.7}
 
-        /* Scroll reveal steps */
-        .steps{display:flex;flex-direction:column;gap:0}
-        .step-card{padding:32px 24px;border-bottom:1px solid var(--border);position:relative;transition:all 0.4s ease;opacity:0.28;transform:translateY(8px)}
-        .step-card.active{opacity:1;transform:translateY(0)}
-        .step-card:first-child{border-top:1px solid var(--border)}
-        .step-header{display:flex;align-items:center;gap:16px;margin-bottom:12px}
-        .step-num-badge{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:var(--muted2);letter-spacing:0.08em;border:1px solid var(--border2);border-radius:100px;padding:3px 10px;transition:all 0.4s}
-        .step-card.active .step-num-badge{color:var(--fg);border-color:var(--fg)}
-        .step-icon{font-size:18px}
-        .step-title{font-family:'Sora',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.02em;color:var(--fg)}
-        .step-desc{font-size:13px;color:var(--muted);line-height:1.7;max-height:0;overflow:hidden;transition:max-height 0.4s ease,opacity 0.4s ease;opacity:0}
-        .step-card.active .step-desc{max-height:100px;opacity:1}
+        .steps{display:flex;flex-direction:column}
+        .step-item{padding:24px 0;border-bottom:1px solid var(--border);transition:all 0.3s ease}
+        .step-item:first-child{border-top:1px solid var(--border)}
+        .step-top{display:flex;align-items:center;gap:14px}
+        .step-num-tag{font-size:11px;font-weight:700;color:var(--muted2);border:1px solid var(--border2);border-radius:100px;padding:3px 10px;letter-spacing:0.06em;transition:all 0.3s;flex-shrink:0}
+        .step-icon-wrap{font-size:16px;width:32px;height:32px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .step-title-text{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.02em;color:var(--muted);opacity:0.45;transition:all 0.3s ease;flex:1}
+        .step-arrow{color:var(--muted2);font-size:20px;transition:transform 0.3s ease;flex-shrink:0;line-height:1}
+        .step-item:hover .step-title-text,.step-item.expanded .step-title-text{color:var(--fg);opacity:1}
+        .step-item:hover .step-num-tag,.step-item.expanded .step-num-tag{color:var(--fg);border-color:rgba(240,237,232,0.4)}
+        .step-item.expanded .step-arrow{transform:rotate(90deg)}
+        .step-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease,opacity 0.3s ease,padding 0.3s ease;opacity:0;font-size:14px;color:var(--muted);line-height:1.7;padding-left:56px}
+        .step-item.expanded .step-body{max-height:120px;opacity:1;padding-top:12px}
 
         .faq-split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
         .faq-h{font-family:'Sora',sans-serif;font-size:clamp(52px,6vw,80px);font-weight:700;letter-spacing:-0.05em;line-height:0.95;margin-bottom:16px;color:var(--fg)}
@@ -266,18 +230,28 @@ export default function Home() {
         </ul>
       </nav>
 
-      <section className="hero">
-        <div className="hero-badge"><span className="badge-dot" />Open to Azure Cloud Roles · Bengaluru</div>
-        <h1 className="hero-h1">Cloud that<br /><span className="dim">you need</span><br />secured.</h1>
-        <p className="hero-sub">Building secure, monitored, and well-governed Azure environments. Microsoft AZ-900 Certified.</p>
-        <div className="hero-btns">
-          <a href="#projects" className="btn-solid">See Projects</a>
-          <a href="#contact" className="btn-outline">Get in Touch</a>
-        </div>
-        <div className="scroll-hint">
-          <span className="scroll-line" /><div className="mouse" /><span>Scroll down</span><span className="scroll-line" /><span>to see projects</span>
-        </div>
-      </section>
+      {/* HERO WITH HORIZONTAL WIPE */}
+      <div className="hero-wipe-wrap">
+        <div className={`hero-wipe-panel${heroReady ? ' open' : ''}`} />
+        <section className="hero">
+          <div className={`hero-badge${heroReady ? ' show' : ''}`}>
+            <span className="badge-dot" />Open to Azure Cloud Roles · Bengaluru
+          </div>
+          <h1 className={`hero-h1${heroReady ? ' show' : ''}`}>
+            Cloud that<br /><span className="dim">you need</span><br />secured.
+          </h1>
+          <p className={`hero-sub${heroReady ? ' show' : ''}`}>
+            Building secure, monitored, and well-governed Azure environments. Microsoft AZ-900 Certified.
+          </p>
+          <div className={`hero-btns${heroReady ? ' show' : ''}`}>
+            <a href="#projects" className="btn-solid">See Projects</a>
+            <a href="#contact" className="btn-outline">Get in Touch</a>
+          </div>
+          <div className={`scroll-hint${heroReady ? ' show' : ''}`}>
+            <span className="scroll-line" /><div className="mouse" /><span>Scroll down</span><span className="scroll-line" /><span>to see projects</span>
+          </div>
+        </section>
+      </div>
 
       <div className="ticker-wrap">
         <div className="ticker-row">
@@ -398,7 +372,7 @@ export default function Home() {
       <div className="divider" />
       <section className="section reveal">
         <div className="process-split">
-          <div className="process-img">
+          <div className="process-sticky">
             <div className="terminal">
               <div className="term-hdr"><div className="td td-r"/><div className="td td-y"/><div className="td td-g"/></div>
               <div className="tl"><span className="p">$ </span><span className="c">az group create --name CloudGuard-Sec-RG --location southindia</span></div>
@@ -417,8 +391,8 @@ export default function Home() {
           </div>
           <div>
             <div className="sec-tag"><span className="sec-dot" /> How I work</div>
-            <h2 className="cap-h2" style={{marginBottom:16}}>Process</h2>
-            <p className="cap-desc">6 structured phases building a complete enterprise Azure security environment from scratch.</p>
+            <h2 className="cap-h2" style={{marginBottom:8}}>Process</h2>
+            <p className="cap-desc">Hover over each phase to explore. 6 structured phases building a complete enterprise Azure security environment.</p>
             <div style={{display:'flex',gap:10,marginBottom:32}}>
               <a href="https://github.com/Prasanth0809/azure-secure-cloud-infrastructure" target="_blank" className="btn-solid" style={{fontSize:13,padding:'11px 22px'}}>View CloudGuard</a>
               <a href="#projects" className="btn-outline" style={{fontSize:13,padding:'11px 22px'}}>See Projects</a>
@@ -427,15 +401,18 @@ export default function Home() {
               {steps.map((s, idx) => (
                 <div
                   key={s.n}
-                  ref={el => { stepsRef.current[idx] = el }}
-                  className={`step-card${activeStep === idx ? ' active' : ''}`}
+                  className={`step-item${activeStep === idx ? ' expanded' : ''}`}
+                  onMouseEnter={() => setActiveStep(idx)}
+                  onMouseLeave={() => setActiveStep(null)}
+                  onClick={() => setActiveStep(activeStep === idx ? null : idx)}
                 >
-                  <div className="step-header">
-                    <span className="step-num-badge">0{s.n}</span>
-                    <span className="step-icon">{s.icon}</span>
-                    <div className="step-title">{s.title}</div>
+                  <div className="step-top">
+                    <span className="step-num-tag">0{s.n}</span>
+                    <div className="step-icon-wrap">{s.icon}</div>
+                    <div className="step-title-text">{s.title}</div>
+                    <span className="step-arrow">›</span>
                   </div>
-                  <div className="step-desc">{s.desc}</div>
+                  <div className="step-body">{s.desc}</div>
                 </div>
               ))}
             </div>
