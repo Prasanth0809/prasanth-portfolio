@@ -455,7 +455,7 @@ export default function Home() {
       <footer className="pfooter">
         <span>prasanthp.080902@gmail.com</span>
         <span style={{opacity:0.15}}>Design inspired by Portfolite</span>
-        <span>All rights reserved © 2026</span>
+        <span>© 2026 Prasanth Selvam. All rights reserved.</span>
       </footer>
     </>
   )
