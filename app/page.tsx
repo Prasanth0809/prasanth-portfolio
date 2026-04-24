@@ -28,7 +28,7 @@ export default function Home() {
           }
         })
       },
-      { threshold: 0.3, rootMargin: '0px 0px -20% 0px' }
+      { threshold: 0.1, rootMargin: '-30% 0px -30% 0px' }
     )
     stepsRef.current.forEach(el => { if (el) stepObserver.observe(el) })
     return () => stepObserver.disconnect()
