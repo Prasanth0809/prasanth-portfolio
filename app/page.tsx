@@ -29,9 +29,9 @@ export default function Home() {
   ]
 
   const ticker1 = ['Azure VNet','NSG Hardening','RBAC Governance','Log Analytics','KQL Queries','Microsoft Defender','Azure Policy','Azure Monitor','AZ-900 Certified','AWS CCP','Terraform','GitHub Actions','CI/CD Pipeline']
-  const ticker2 = ['Azure Virtual Network','Network Security Groups','Azure Firewall','RBAC & IAM','Microsoft Defender for Cloud','Log Analytics Workspace','KQL','Azure Monitor']
-  const ticker3 = ['Azure Policy','Compliance Assessment','Azure AD','Managed Identities','ARM Templates','Azure CLI','Resource Groups','AZ-900','AWS CCP']
-
+  const ticker2 = ['Azure Virtual Network','Network Security Groups','Azure Firewall','RBAC & IAM','Microsoft Defender for Cloud','Log Analytics Workspace','KQL','Azure Monitor','Terraform','GitHub Actions']
+  const ticker3 = ['Azure Policy','Compliance Assessment','Azure AD','Managed Identities','ARM Templates','Azure CLI','Resource Groups','AZ-900','AWS CCP','CI/CD Pipeline','GitOps']
+  
   const steps = [
     { n:1, icon:'🏗️', title:'Infrastructure Setup', desc:'Built VNet with public/private subnets, Storage Account, and Log Analytics Workspace from scratch on Azure Portal.' },
     { n:2, icon:'🔒', title:'Network Security', desc:'Configured NSG inbound rules with IP whitelisting (/32 CIDR), attached to private subnet, validated logs with KQL.' },
