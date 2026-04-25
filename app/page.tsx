@@ -311,19 +311,26 @@ export default function Home() {
               <div className="proj-sub">Azure Secure Cloud Infrastructure · 6 Phases</div>
             </div>
           </a>
-          <div className="proj-card" style={{cursor:'default',borderRadius:'0 12px 0 0'}}>
-            <div className="proj-bg" style={{background:'#0f0f0f'}}>
-              <div style={{textAlign:'center',padding:40}}>
-                <div style={{fontSize:36,opacity:0.08,marginBottom:16}}>⚙</div>
-                <div style={{fontSize:13,color:'rgba(240,237,232,0.12)',fontWeight:500,letterSpacing:'0.04em'}}>PROJECT 2</div>
-                <div style={{fontSize:11,color:'rgba(240,237,232,0.07)',marginTop:8}}>Coming soon</div>
-              </div>
-            </div>
-            <div className="proj-info">
-              <div className="proj-name" style={{opacity:0.3}}>Project 2</div>
-              <div className="proj-sub" style={{opacity:0.2}}>Coming soon</div>
-            </div>
-          </div>
+          <a href="https://github.com/Prasanth0809/cloudguard-iac-pipeline" target="_blank" className="proj-card" style={{borderRadius:'0 12px 0 0'}}>
+  <div className="proj-bg" style={{background:'#0d1117'}}>
+    <div style={{position:'absolute',inset:0,padding:'24px',fontFamily:'monospace',fontSize:'11px',lineHeight:1.7,overflow:'hidden'}}>
+      <div style={{color:'#28ca41',marginBottom:8}}>▶ terraform apply</div>
+      <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_resource_group.rg: Creating...</div>
+      <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_virtual_network.vnet: Creating...</div>
+      <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_subnet.public: Creating...</div>
+      <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_network_security_group.nsg: Creating...</div>
+      <div style={{color:'#28ca41',marginTop:8}}>Apply complete! 5 resources added.</div>
+      <div style={{color:'rgba(240,237,232,0.15)',marginTop:16,fontSize:10}}>✓ GitHub Actions CI/CD</div>
+      <div style={{color:'rgba(240,237,232,0.15)',fontSize:10}}>✓ Terraform IaC</div>
+      <div style={{color:'rgba(240,237,232,0.15)',fontSize:10}}>✓ Azure VNet + NSG</div>
+    </div>
+  </div>
+  <div className="proj-overlay"><span className="proj-cta-btn">View on GitHub ↗</span></div>
+  <div className="proj-info">
+    <div className="proj-name">CloudGuard IaC Pipeline</div>
+    <div className="proj-sub">Terraform + GitHub Actions CI/CD · Auto Deploy</div>
+  </div>
+</a>
         </div>
       </section>
 
