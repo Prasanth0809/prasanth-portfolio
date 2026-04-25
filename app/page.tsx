@@ -31,7 +31,7 @@ export default function Home() {
   const ticker1 = ['Azure VNet','NSG Hardening','RBAC Governance','Log Analytics','KQL Queries','Microsoft Defender','Azure Policy','Azure Monitor','AZ-900 Certified','AWS CCP','Terraform','GitHub Actions','CI/CD Pipeline']
   const ticker2 = ['Azure Virtual Network','Network Security Groups','Azure Firewall','RBAC & IAM','Microsoft Defender for Cloud','Log Analytics Workspace','KQL','Azure Monitor','Terraform','GitHub Actions']
   const ticker3 = ['Azure Policy','Compliance Assessment','Azure AD','Managed Identities','ARM Templates','Azure CLI','Resource Groups','AZ-900','AWS CCP','CI/CD Pipeline','GitOps']
-  
+
   const steps = [
     { n:1, icon:'🏗️', title:'Infrastructure Setup', desc:'Built VNet with public/private subnets, Storage Account, and Log Analytics Workspace from scratch on Azure Portal.' },
     { n:2, icon:'🔒', title:'Network Security', desc:'Configured NSG inbound rules with IP whitelisting (/32 CIDR), attached to private subnet, validated logs with KQL.' },
@@ -277,6 +277,7 @@ export default function Home() {
             </div>
             <div className="exp-table">
               <div className="exp-row"><span className="exp-role">Azure Cloud Engineer</span><span className="exp-org">CloudGuard Project</span><span className="exp-date">Jan 2026 – Mar 2026</span></div>
+              <div className="exp-row"><span className="exp-role">CloudGuard IaC Pipeline</span><span className="exp-org">Terraform + GitHub Actions</span><span className="exp-date">Apr 2026 - Apr 2026</span></div>
               <div className="exp-row"><span className="exp-role">PG Diploma – Cloud Data Mgmt</span><span className="exp-org">Conestoga College, Canada</span><span className="exp-date">2025</span></div>
               <div className="exp-row"><span className="exp-role">B.E. Computer Science</span><span className="exp-org">Kumaraguru College of Technology</span><span className="exp-date">2023</span></div>
             </div>
