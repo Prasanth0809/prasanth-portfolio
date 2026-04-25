@@ -28,7 +28,7 @@ export default function Home() {
     { q: 'How can I reach you?', a: 'Email me at prasanthp.080902@gmail.com or connect on LinkedIn at linkedin.com/in/prasanthpanneer. I typically respond within 24 hours.' },
   ]
 
-  const ticker1 = ['Azure VNet','NSG Hardening','RBAC Governance','Log Analytics','KQL Queries','Microsoft Defender','Azure Policy','Azure Monitor','AZ-900 Certified','AWS CCP']
+  const ticker1 = ['Azure VNet','NSG Hardening','RBAC Governance','Log Analytics','KQL Queries','Microsoft Defender','Azure Policy','Azure Monitor','AZ-900 Certified','AWS CCP','Terraform','GitHub Actions','CI/CD Pipeline']
   const ticker2 = ['Azure Virtual Network','Network Security Groups','Azure Firewall','RBAC & IAM','Microsoft Defender for Cloud','Log Analytics Workspace','KQL','Azure Monitor']
   const ticker3 = ['Azure Policy','Compliance Assessment','Azure AD','Managed Identities','ARM Templates','Azure CLI','Resource Groups','AZ-900','AWS CCP']
 
