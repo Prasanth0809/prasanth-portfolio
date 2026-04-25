@@ -23,6 +23,7 @@ export default function Home() {
     { q: 'What roles are you targeting?', a: 'Azure Cloud Engineer, Azure Administrator, Cloud Security, and GRC-adjacent roles in Bengaluru, Hyderabad, Chennai, or Coimbatore. Open to remote and hybrid positions.' },
     { q: 'What certifications do you hold?', a: 'Microsoft Certified: Azure Fundamentals (AZ-900) and AWS Certified Cloud Practitioner (AWS CCP). Currently targeting AZ-104 as the next milestone.' },
     { q: 'What is CloudGuard?', a: 'CloudGuard is my enterprise-grade Azure project covering 6 phases: secure networking, NSG hardening, Log Analytics monitoring with KQL, automated alerting, custom RBAC governance, Azure Policy, and Microsoft Defender for Cloud.' },
+    { q: 'What is the CloudGuard IaC Pipeline project?', a: 'CloudGuard IaC Pipeline is my second Azure project — it automates the entire infrastructure deployment using Terraform and GitHub Actions CI/CD. Every push to GitHub triggers an automated pipeline that provisions Azure VNet, subnets, and NSG — eliminating manual portal clicks.' },
     { q: 'What is your notice period?', a: "Zero days — I'm available to join immediately. Currently based in Bengaluru and actively applying for cloud roles." },
     { q: 'How can I reach you?', a: 'Email me at prasanthp.080902@gmail.com or connect on LinkedIn at linkedin.com/in/prasanthpanneer. I typically respond within 24 hours.' },
   ]
@@ -38,6 +39,8 @@ export default function Home() {
     { n:4, icon:'🚨', title:'Alerting & Incident Notifications', desc:'Set up Azure Monitor Alert Rules targeting admin error events with Action Groups for automated email notifications.' },
     { n:5, icon:'🛡️', title:'Security & Governance', desc:'Created custom RBAC role with least-privilege permissions and enforced mandatory resource tagging via Azure Policy.' },
     { n:6, icon:'🔍', title:'Defender for Cloud', desc:'Assessed Secure Score, investigated security recommendations, and mapped controls to Azure Security Benchmark.' },
+    { n:7, icon:'🏗️', title:'Infrastructure as Code', desc:'Wrote Terraform configs (main.tf, vnet.tf, nsg.tf) to provision Azure Resource Group, VNet, subnets, and NSG — no manual portal clicks.' },
+    { n:8, icon:'🔄', title:'CI/CD Pipeline Automation', desc:'Built GitHub Actions workflow triggering on every push — runs terraform init, plan, and apply automatically to Azure.' },
   ]
 
   return (
@@ -348,7 +351,7 @@ export default function Home() {
               </div>
             </div>
             <div className="stats-row">
-              <div className="stat-cell"><div className="stat-n">6</div><div className="stat-l">Project phases complete</div></div>
+              <div className="stat-cell"><div className="stat-n">2</div><div className="stat-l">Projects completed</div></div>
               <div className="stat-cell"><div className="stat-n">2</div><div className="stat-l">Cloud certifications</div></div>
               <div className="stat-cell"><div className="stat-n">AZ-900</div><div className="stat-l">Microsoft certified</div></div>
             </div>
@@ -360,6 +363,8 @@ export default function Home() {
                 {icon:'📊',title:'Monitoring & KQL',body:'Log Analytics Workspace, custom KQL queries, Azure Monitor alerts and diagnostic settings.'},
                 {icon:'🏛️',title:'Governance & Policy',body:'Azure Policy enforcement, compliance scoring, resource tagging, and RBAC role assignments.'},
                 {icon:'🌐',title:'Networking',body:'VNet design, subnet segmentation, route tables, peering, and Azure Firewall configuration.'},
+                {icon:'⚙️',title:'Infrastructure as Code',body:'Terraform provisioning, Azure resource automation, GitOps workflow, and repeatable infrastructure deployment.'},
+                {icon:'🔄',title:'CI/CD Pipelines',body:'GitHub Actions automated pipelines, Terraform plan and apply workflows, push-triggered deployments.'},
               ].map(c=>(
                 <div key={c.title} className="cap-card">
                   <div className="cap-icon">{c.icon}</div>
@@ -399,7 +404,7 @@ export default function Home() {
           <div>
             <div className="sec-tag"><span className="sec-dot" /> How I work</div>
             <h2 className="cap-h2" style={{marginBottom:8}}>Process</h2>
-            <p className="cap-desc">Hover over each phase to explore. 6 structured phases building a complete enterprise Azure security environment.</p>
+            <p className="cap-desc">Hover over each phase to explore. 8 structured phases across 2 projects building a complete enterprise Azure security environment.</p>
             <div style={{display:'flex',gap:10,marginBottom:32}}>
               <a href="https://github.com/Prasanth0809/azure-secure-cloud-infrastructure" target="_blank" className="btn-solid" style={{fontSize:13,padding:'11px 22px'}}>View CloudGuard</a>
               <a href="#projects" className="btn-outline" style={{fontSize:13,padding:'11px 22px'}}>See Projects</a>
