@@ -271,7 +271,7 @@ export default function Home() {
             <div className="sec-tag"><span className="sec-dot" /> About me</div>
             <h2 className="about-h2">Meet<br /><span className="dim">Prasanth.</span></h2>
             <p className="about-para">I'm a fresher Azure Cloud Engineer based in Bengaluru, specializing in cloud security, monitoring, and governance. I hold a Post Graduate Diploma in Cloud Data Management from Conestoga College, Canada.</p>
-            <p className="about-para">My CloudGuard project simulates a real enterprise Azure environment across 6 phases — from secure VNet design to Defender for Cloud security posture management and Azure Policy compliance.</p>
+            <p className="about-para">I've built two enterprise Azure projects — CloudGuard (6-phase secure cloud infrastructure covering VNet, NSG, RBAC, KQL monitoring, Azure Policy, and Defender for Cloud) and CloudGuard IaC Pipeline (Terraform + GitHub Actions CI/CD automating full Azure infrastructure deployment).</p>
             <div className="chips">
               {['Azure Administration','Cloud Security','Log Analytics','KQL','RBAC & IAM','Azure Policy','NSG','Defender for Cloud','Azure Monitor','GRC'].map(c=><span key={c} className="chip">{c}</span>)}
             </div>
