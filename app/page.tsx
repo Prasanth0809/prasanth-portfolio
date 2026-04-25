@@ -244,7 +244,7 @@ export default function Home() {
             Cloud that<br /><span className="dim">you need</span><br />secured.
           </h1>
           <p className={`hero-sub${heroReady ? ' show' : ''}`}>
-            Building secure, monitored, and well-governed Azure environments. Microsoft AZ-900 Certified.
+            Building secure Azure environments with IaC, CI/CD pipelines, and cloud security. Microsoft AZ-900 Certified.
           </p>
           <div className={`hero-btns${heroReady ? ' show' : ''}`}>
             <a href="#projects" className="btn-solid">See Projects</a>
