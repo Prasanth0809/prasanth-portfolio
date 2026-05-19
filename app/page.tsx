@@ -2,6 +2,33 @@
 
 import { useEffect, useState } from 'react'
 
+function ScrollProgress() {
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return (
+    <div style={{
+      position:'fixed',
+      top:0,
+      left:0,
+      width:`${progress}%`,
+      height:'2px',
+      background:'rgba(240,237,232,0.7)',
+      zIndex:999,
+      transition:'width 0.1s ease',
+      pointerEvents:'none',
+    }} />
+  )
+}
 function CyclingWord({ words }: { words: string[] }) {
   const [index, setIndex] = useState(0)
   const [visible, setVisible] = useState(true)
@@ -329,6 +356,7 @@ export default function Home() {
         <div className="blob blob1" /><div className="blob blob2" /><div className="blob blob3" />
       </div>
 
+      <ScrollProgress />
       <nav className="pnav">
         <a href="#" className="pnav-logo">Prasanth Panneer Selvam</a>
         <ul className="pnav-links">
