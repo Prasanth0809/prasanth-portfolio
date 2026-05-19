@@ -2,6 +2,89 @@
 
 import { useEffect, useState } from 'react'
 
+function TypingTerminal() {
+  const lines = [
+    { cmd: 'az group create --name CloudGuard-Sec-RG --location southindia', res: 'provisioningState: Succeeded' },
+    { cmd: 'az network nsg rule create --name AllowMyIP --priority 100', res: 'provisioningState: Succeeded' },
+    { cmd: 'az monitor log-analytics workspace create --workspace-name law-phase3', res: 'provisioningState: Succeeded' },
+    { cmd: 'az monitor metrics alert create --name phase4-admin-change-alert', res: 'provisioningState: Succeeded' },
+    { cmd: 'az role definition create --role-definition phase5-monitor-reader.json', res: 'roleType: CustomRole' },
+    { cmd: 'az security pricing create --name VirtualMachines --tier Standard', res: 'Microsoft Defender: Enabled' },
+  ]
+
+  const [displayedLines, setDisplayedLines] = useState<{cmd: string, res: string}[]>([])
+  const [currentLine, setCurrentLine] = useState(0)
+  const [currentChar, setCurrentChar] = useState(0)
+  const [showCursor, setShowCursor] = useState(true)
+  const [phase, setPhase] = useState<'typing'|'response'|'pause'>('typing')
+
+  useEffect(() => {
+    const blink = setInterval(() => setShowCursor(p => !p), 530)
+    return () => clearInterval(blink)
+  }, [])
+
+  useEffect(() => {
+    if (currentLine >= lines.length) return
+
+    if (phase === 'typing') {
+      if (currentChar < lines[currentLine].cmd.length) {
+        const t = setTimeout(() => setCurrentChar(c => c + 1), 28)
+        return () => clearTimeout(t)
+      } else {
+        const t = setTimeout(() => setPhase('response'), 300)
+        return () => clearTimeout(t)
+      }
+    }
+
+    if (phase === 'response') {
+      setDisplayedLines(prev => [...prev, { cmd: lines[currentLine].cmd, res: lines[currentLine].res }])
+      setPhase('pause')
+    }
+
+    if (phase === 'pause') {
+      const t = setTimeout(() => {
+        setCurrentLine(l => l + 1)
+        setCurrentChar(0)
+        setPhase('typing')
+      }, 600)
+      return () => clearTimeout(t)
+    }
+  }, [phase, currentChar, currentLine])
+
+  useEffect(() => {
+    if (currentLine >= lines.length) {
+      const t = setTimeout(() => {
+        setDisplayedLines([])
+        setCurrentLine(0)
+        setCurrentChar(0)
+        setPhase('typing')
+      }, 3000)
+      return () => clearTimeout(t)
+    }
+  }, [currentLine])
+
+  const currentCmd = currentLine < lines.length ? lines[currentLine].cmd.slice(0, currentChar) : ''
+
+  return (
+    <div style={{fontFamily:'monospace',fontSize:'11px',lineHeight:1.7}}>
+      {displayedLines.map((l, i) => (
+        <div key={i}>
+          <div className="tl"><span className="p">$ </span><span className="c">{l.cmd}</span></div>
+          <div className="tl"><span className="o"><span className="ok">{l.res}</span></span></div>
+          <br/>
+        </div>
+      ))}
+      {currentLine < lines.length && (
+        <div className="tl">
+          <span className="p">$ </span>
+          <span className="c">{currentCmd}</span>
+          <span style={{opacity: showCursor ? 1 : 0, color:'rgba(240,237,232,0.7)'}}>▋</span>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [activeStep, setActiveStep] = useState<number | null>(null)
@@ -39,7 +122,7 @@ export default function Home() {
     { n:4, icon:'🚨', title:'Alerting & Incident Notifications', desc:'Set up Azure Monitor Alert Rules targeting admin error events with Action Groups for automated email notifications.' },
     { n:5, icon:'🛡️', title:'Security & Governance', desc:'Created custom RBAC role with least-privilege permissions and enforced mandatory resource tagging via Azure Policy.' },
     { n:6, icon:'🔍', title:'Defender for Cloud', desc:'Assessed Secure Score, investigated security recommendations, and mapped controls to Azure Security Benchmark.' },
-    { n:7, icon:'🏗️', title:'Infrastructure as Code', desc:'Wrote Terraform configs (main.tf, vnet.tf, nsg.tf) to provision Azure Resource Group, VNet, subnets, and NSG — no manual portal clicks.' },
+    { n:7, icon:'⚙️', title:'Infrastructure as Code', desc:'Wrote Terraform configs (main.tf, vnet.tf, nsg.tf) to provision Azure Resource Group, VNet, subnets, and NSG — no manual portal clicks.' },
     { n:8, icon:'🔄', title:'CI/CD Pipeline Automation', desc:'Built GitHub Actions workflow triggering on every push — runs terraform init, plan, and apply automatically to Azure.' },
   ]
 
@@ -67,7 +150,6 @@ export default function Home() {
         .pnav-links a:hover{color:var(--fg)}
         .btn-nav{background:var(--fg)!important;color:var(--bg)!important;padding:9px 20px;border-radius:100px;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;text-decoration:none}
 
-        /* HERO HORIZONTAL WIPE */
         .hero-wipe-wrap{position:relative;z-index:1;min-height:100vh;overflow:hidden}
         .hero-wipe-panel{position:absolute;inset:0;background:var(--bg);transform-origin:right center;transition:transform 1.1s cubic-bezier(0.77,0,0.18,1);transform:scaleX(1);z-index:3}
         .hero-wipe-panel.open{transform:scaleX(0)}
@@ -162,10 +244,9 @@ export default function Home() {
         .st-inner.rev{animation-direction:reverse}
         .st-item{display:inline-flex;align-items:center;gap:8px;margin:0 6px;border:1px solid var(--border2);border-radius:100px;padding:7px 16px;font-size:12px;color:rgba(240,237,232,0.5);white-space:nowrap;background:rgba(255,255,255,0.03)}
 
-        /* PROCESS — Basee scroll reveal style */
         .process-split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
         .process-sticky{position:sticky;top:100px}
-        .terminal{width:100%;background:#0d0d0d;border-radius:12px;border:1px solid var(--border);padding:20px;font-family:monospace;font-size:11px;line-height:1.7}
+        .terminal{width:100%;background:#0d0d0d;border-radius:12px;border:1px solid var(--border);padding:20px;font-family:monospace;font-size:11px;line-height:1.7;min-height:280px}
         .term-hdr{display:flex;gap:6px;margin-bottom:16px}
         .td{width:10px;height:10px;border-radius:50%}
         .td-r{background:#ff5f57}.td-y{background:#ffbd2e}.td-g{background:#28ca41}
@@ -316,25 +397,25 @@ export default function Home() {
             </div>
           </a>
           <a href="https://github.com/Prasanth0809/cloudguard-iac-pipeline" target="_blank" className="proj-card" style={{borderRadius:'0 12px 0 0'}}>
-  <div className="proj-bg" style={{background:'#0d1117'}}>
-    <div style={{position:'absolute',inset:0,padding:'24px',fontFamily:'monospace',fontSize:'11px',lineHeight:1.7,overflow:'hidden'}}>
-      <div style={{color:'#28ca41',marginBottom:8}}>▶ terraform apply</div>
-      <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_resource_group.rg: Creating...</div>
-      <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_virtual_network.vnet: Creating...</div>
-      <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_subnet.public: Creating...</div>
-      <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_network_security_group.nsg: Creating...</div>
-      <div style={{color:'#28ca41',marginTop:8}}>Apply complete! 5 resources added.</div>
-      <div style={{color:'rgba(240,237,232,0.15)',marginTop:16,fontSize:10}}>✓ GitHub Actions CI/CD</div>
-      <div style={{color:'rgba(240,237,232,0.15)',fontSize:10}}>✓ Terraform IaC</div>
-      <div style={{color:'rgba(240,237,232,0.15)',fontSize:10}}>✓ Azure VNet + NSG</div>
-    </div>
-  </div>
-  <div className="proj-overlay"><span className="proj-cta-btn">View on GitHub ↗</span></div>
-  <div className="proj-info">
-    <div className="proj-name">CloudGuard IaC Pipeline</div>
-    <div className="proj-sub">Terraform + GitHub Actions CI/CD · Auto Deploy</div>
-  </div>
-</a>
+            <div className="proj-bg" style={{background:'#0d1117'}}>
+              <div style={{position:'absolute',inset:0,padding:'24px',fontFamily:'monospace',fontSize:'11px',lineHeight:1.7,overflow:'hidden'}}>
+                <div style={{color:'#28ca41',marginBottom:8}}>▶ terraform apply</div>
+                <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_resource_group.rg: Creating...</div>
+                <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_virtual_network.vnet: Creating...</div>
+                <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_subnet.public: Creating...</div>
+                <div style={{color:'rgba(240,237,232,0.4)'}}>azurerm_network_security_group.nsg: Creating...</div>
+                <div style={{color:'#28ca41',marginTop:8}}>Apply complete! 5 resources added.</div>
+                <div style={{color:'rgba(240,237,232,0.15)',marginTop:16,fontSize:10}}>✓ GitHub Actions CI/CD</div>
+                <div style={{color:'rgba(240,237,232,0.15)',fontSize:10}}>✓ Terraform IaC</div>
+                <div style={{color:'rgba(240,237,232,0.15)',fontSize:10}}>✓ Azure VNet + NSG</div>
+              </div>
+            </div>
+            <div className="proj-overlay"><span className="proj-cta-btn">View on GitHub ↗</span></div>
+            <div className="proj-info">
+              <div className="proj-name">CloudGuard IaC Pipeline</div>
+              <div className="proj-sub">Terraform + GitHub Actions CI/CD · Auto Deploy</div>
+            </div>
+          </a>
         </div>
       </section>
 
@@ -388,18 +469,7 @@ export default function Home() {
           <div className="process-sticky">
             <div className="terminal">
               <div className="term-hdr"><div className="td td-r"/><div className="td td-y"/><div className="td td-g"/></div>
-              <div className="tl"><span className="p">$ </span><span className="c">az group create --name CloudGuard-Sec-RG --location southindia</span></div>
-              <div className="tl"><span className="o">provisioningState: <span className="ok">Succeeded</span></span></div><br/>
-              <div className="tl"><span className="p">$ </span><span className="c">az network nsg rule create --name AllowMyIP --priority 100</span></div>
-              <div className="tl"><span className="o">provisioningState: <span className="ok">Succeeded</span></span></div><br/>
-              <div className="tl"><span className="p">$ </span><span className="c">az monitor log-analytics workspace create --workspace-name law-phase3</span></div>
-              <div className="tl"><span className="o">provisioningState: <span className="ok">Succeeded</span></span></div><br/>
-              <div className="tl"><span className="p">$ </span><span className="c">az monitor metrics alert create --name phase4-admin-change-alert</span></div>
-              <div className="tl"><span className="o">provisioningState: <span className="ok">Succeeded</span></span></div><br/>
-              <div className="tl"><span className="p">$ </span><span className="c">az role definition create --role-definition phase5-monitor-reader.json</span></div>
-              <div className="tl"><span className="o">roleType: <span className="ok">CustomRole</span></span></div><br/>
-              <div className="tl"><span className="p">$ </span><span className="c">az security pricing create --name VirtualMachines --tier Standard</span></div>
-              <div className="tl"><span className="o">Microsoft Defender: <span className="ok">Enabled</span></span></div>
+              <TypingTerminal />
             </div>
           </div>
           <div>
