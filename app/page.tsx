@@ -2,6 +2,32 @@
 
 import { useEffect, useState } from 'react'
 
+function CyclingWord({ words }: { words: string[] }) {
+  const [index, setIndex] = useState(0)
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false)
+      setTimeout(() => {
+        setIndex(i => (i + 1) % words.length)
+        setVisible(true)
+      }, 400)
+    }, 2200)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <span style={{
+      display:'inline-block',
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(12px)',
+      transition:'opacity 0.4s ease, transform 0.4s ease',
+    }}>
+      {words[index]}
+    </span>
+  )
+}
 function TypingTerminal() {
   const lines = [
     { cmd: 'az group create --name CloudGuard-Sec-RG --location southindia', res: 'provisioningState: Succeeded' },
@@ -322,7 +348,7 @@ export default function Home() {
             <span className="badge-dot" />Open to Azure Cloud Roles · Bengaluru
           </div>
           <h1 className={`hero-h1${heroReady ? ' show' : ''}`}>
-            Cloud that<br /><span className="dim">you need</span><br />secured.
+            Cloud that<br /><span className="dim">you need</span><br /><CyclingWord words={['secured.','monitored.','governed.','automated.']} />
           </h1>
           <p className={`hero-sub${heroReady ? ' show' : ''}`}>
             Building secure Azure environments with IaC, CI/CD pipelines, and cloud security. Microsoft AZ-900 Certified.
