@@ -252,8 +252,8 @@ export default function Home() {
         .exp-role{color:var(--fg)}
         .exp-org{color:var(--muted)}
         .exp-date{color:var(--muted2);font-size:12px}
-        .about-photo{width:100%;aspect-ratio:3/4;background:var(--bg3);border-radius:12px;border:1px solid var(--border);overflow:hidden;position:relative}
-        .about-photo img{width:100%;height:100%;object-fit:cover;object-position:top center}
+        .about-photo{width:100%;aspect-ratio:3/4;background:var(--bg3);border-radius:12px;border:1px solid var(--border);overflow:hidden;position:relative;transition:box-shadow 0.4s ease;box-shadow:0 0 0px rgba(240,237,232,0)}
+        .about-photo:hover{box-shadow:0 0 40px rgba(240,237,232,0.08),0 0 80px rgba(240,237,232,0.04),inset 0 0 0 1px rgba(240,237,232,0.15)}        .about-photo img{width:100%;height:100%;object-fit:cover;object-position:top center}
         .photo-overlay{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(9,9,9,0.88))}
         .photo-name{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.03em}
         .photo-role{font-size:13px;color:var(--muted);margin-top:4px}
