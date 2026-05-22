@@ -29,6 +29,7 @@ function ScrollProgress() {
     }} />
   )
 }
+
 function CyclingWord({ words }: { words: string[] }) {
   const [index, setIndex] = useState(0)
   const [visible, setVisible] = useState(true)
@@ -55,6 +56,7 @@ function CyclingWord({ words }: { words: string[] }) {
     </span>
   )
 }
+
 function TypingTerminal() {
   const lines = [
     { cmd: 'az group create --name CloudGuard-Sec-RG --location southindia', res: 'provisioningState: Succeeded' },
@@ -78,7 +80,6 @@ function TypingTerminal() {
 
   useEffect(() => {
     if (currentLine >= lines.length) return
-
     if (phase === 'typing') {
       if (currentChar < lines[currentLine].cmd.length) {
         const t = setTimeout(() => setCurrentChar(c => c + 1), 28)
@@ -88,12 +89,10 @@ function TypingTerminal() {
         return () => clearTimeout(t)
       }
     }
-
     if (phase === 'response') {
       setDisplayedLines(prev => [...prev, { cmd: lines[currentLine].cmd, res: lines[currentLine].res }])
       setPhase('pause')
     }
-
     if (phase === 'pause') {
       const t = setTimeout(() => {
         setCurrentLine(l => l + 1)
@@ -142,6 +141,7 @@ export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [activeStep, setActiveStep] = useState<number | null>(null)
   const [heroReady, setHeroReady] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -202,6 +202,12 @@ export default function Home() {
         .pnav-links a{font-size:13px;font-weight:400;color:var(--muted);text-decoration:none;letter-spacing:0.01em;transition:color 0.2s}
         .pnav-links a:hover{color:var(--fg)}
         .btn-nav{background:var(--fg)!important;color:var(--bg)!important;padding:9px 20px;border-radius:100px;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;text-decoration:none}
+        .mobile-menu-btn{display:none;background:none;border:1px solid var(--border2);border-radius:8px;padding:8px 12px;color:var(--fg);font-size:18px;cursor:pointer;line-height:1}
+        .mobile-menu{display:none;position:fixed;top:65px;left:0;right:0;z-index:199;background:rgba(9,9,9,0.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:20px 24px;flex-direction:column;gap:4px}
+        .mobile-menu.open{display:flex}
+        .mobile-menu a{font-size:15px;color:var(--muted);text-decoration:none;padding:12px 0;border-bottom:1px solid var(--border);transition:color 0.2s}
+        .mobile-menu a:last-child{border-bottom:none;margin-top:8px}
+        .mobile-menu a:hover{color:var(--fg)}
 
         .hero-wipe-wrap{position:relative;z-index:1;min-height:100vh;overflow:hidden}
         .hero-wipe-panel{position:absolute;inset:0;background:var(--bg);transform-origin:right center;transition:transform 1.1s cubic-bezier(0.77,0,0.18,1);transform:scaleX(1);z-index:3}
@@ -253,7 +259,8 @@ export default function Home() {
         .exp-org{color:var(--muted)}
         .exp-date{color:var(--muted2);font-size:12px}
         .about-photo{width:100%;aspect-ratio:3/4;background:var(--bg3);border-radius:12px;border:1px solid var(--border);overflow:hidden;position:relative;transition:box-shadow 0.4s ease;box-shadow:0 0 0px rgba(240,237,232,0)}
-        .about-photo:hover{box-shadow:0 0 40px rgba(240,237,232,0.18),0 0 80px rgba(240,237,232,0.10),inset 0 0 0 1px rgba(240,237,232,0.35)}        .about-photo img{width:100%;height:100%;object-fit:cover;object-position:top center}
+        .about-photo:hover{box-shadow:0 0 40px rgba(240,237,232,0.18),0 0 80px rgba(240,237,232,0.10),inset 0 0 0 1px rgba(240,237,232,0.35)}
+        .about-photo img{width:100%;height:100%;object-fit:cover;object-position:top center}
         .photo-overlay{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(9,9,9,0.88))}
         .photo-name{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.03em}
         .photo-role{font-size:13px;color:var(--muted);margin-top:4px}
@@ -278,7 +285,7 @@ export default function Home() {
         .cap-right{padding-left:60px}
         .cap-h2{font-family:'Sora',sans-serif;font-size:clamp(40px,5vw,60px);font-weight:700;letter-spacing:-0.04em;line-height:1.0;margin-bottom:20px;color:var(--fg)}
         .cap-desc{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:32px}
-        .cap-btns{display:flex;gap:10px}
+        .cap-btns{display:flex;gap:10px;flex-wrap:wrap}
         .cap-cards{display:flex;flex-direction:column;gap:2px}
         .cap-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:22px 24px;display:flex;gap:18px;align-items:flex-start;transition:border-color 0.25s,background 0.25s}
         .cap-card:hover{border-color:var(--border2);background:rgba(255,255,255,0.03)}
@@ -328,7 +335,7 @@ export default function Home() {
         .faq-sub{font-size:15px;color:var(--muted);line-height:1.7}
         .faq-list{display:flex;flex-direction:column;gap:2px}
         .faq-item{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg3)}
-        .faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;font-size:14px;font-weight:500;color:var(--fg);background:none;border:none;cursor:none;text-align:left;gap:16px;transition:background 0.2s;font-family:'Inter',sans-serif}
+        .faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;font-size:14px;font-weight:500;color:var(--fg);background:none;border:none;cursor:pointer;text-align:left;gap:16px;transition:background 0.2s;font-family:'Inter',sans-serif}
         .faq-q:hover{background:rgba(255,255,255,0.02)}
         .faq-icon{width:22px;height:22px;flex-shrink:0;border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--muted);transition:transform 0.3s}
         .faq-icon.open{transform:rotate(45deg)}
@@ -349,6 +356,56 @@ export default function Home() {
         @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
         .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
         .reveal.visible{opacity:1;transform:translateY(0)}
+
+        /* ===================== MOBILE ===================== */
+        @media (max-width: 768px) {
+          .pnav{padding:16px 20px}
+          .pnav-links{display:none}
+          .mobile-menu-btn{display:block}
+          .hero{padding:100px 20px 60px}
+          .hero-h1{font-size:clamp(48px,13vw,72px);letter-spacing:-0.035em}
+          .hero-sub{font-size:14px;max-width:320px}
+          .hero-btns{flex-direction:column;align-items:center;gap:10px;width:100%}
+          .btn-solid,.btn-outline{width:100%;text-align:center;justify-content:center;padding:14px 20px}
+          .scroll-hint{display:none}
+          .section{padding:60px 20px}
+          .about-grid{grid-template-columns:1fr;gap:40px}
+          .about-h2{font-size:clamp(36px,10vw,52px)}
+          .exp-row{grid-template-columns:1fr;gap:2px}
+          .exp-date{font-size:11px}
+          .proj-grid{grid-template-columns:1fr;gap:4px}
+          .proj-card:first-child{border-radius:12px 12px 0 0}
+          .proj-card:nth-child(2){border-radius:0 0 12px 12px}
+          .proj-card{aspect-ratio:16/9}
+          .cap-split{grid-template-columns:1fr}
+          .cap-left{padding-right:0;border-right:none;border-bottom:1px solid var(--border);padding-bottom:40px;margin-bottom:40px}
+          .cap-right{padding-left:0}
+          .cap-h2{font-size:clamp(32px,8vw,48px)}
+          .stats-row{margin-top:32px}
+          .stat-cell{padding:20px 12px}
+          .stat-n{font-size:28px}
+          .stat-l{font-size:11px}
+          .process-split{grid-template-columns:1fr;gap:40px}
+          .process-sticky{position:relative;top:auto}
+          .terminal{min-height:200px;font-size:10px}
+          .step-title-text{font-size:15px}
+          .faq-split{grid-template-columns:1fr;gap:32px}
+          .faq-h{font-size:clamp(40px,10vw,60px)}
+          .cta-section{padding:60px 20px;min-height:400px}
+          .cta-links{flex-direction:column;align-items:center}
+          .cta-link{width:100%;justify-content:center}
+          .pfooter{padding:16px 20px;flex-direction:column;gap:8px;text-align:center}
+          .pfooter span:nth-child(2){display:none}
+        }
+
+        @media (max-width: 480px) {
+          .hero-h1{font-size:clamp(40px,14vw,60px)}
+          .stats-row{grid-template-columns:1fr}
+          .stat-cell{border-right:none;border-bottom:1px solid var(--border);padding:18px 16px}
+          .stat-cell:last-child{border-bottom:none}
+          .cap-btns{flex-direction:column}
+          .cap-btns .btn-solid,.cap-btns .btn-outline{width:100%;text-align:center;justify-content:center}
+        }
       `}</style>
 
       <div className="noise" />
@@ -357,6 +414,15 @@ export default function Home() {
       </div>
 
       <ScrollProgress />
+
+      <div className={`mobile-menu${mobileMenuOpen ? ' open' : ''}`}>
+        <a href="#about" onClick={()=>setMobileMenuOpen(false)}>About</a>
+        <a href="#projects" onClick={()=>setMobileMenuOpen(false)}>Projects</a>
+        <a href="#capabilities" onClick={()=>setMobileMenuOpen(false)}>Capabilities</a>
+        <a href="#contact" onClick={()=>setMobileMenuOpen(false)}>Contact</a>
+        <a href="/static/resume.pdf" target="_blank" className="btn-nav" style={{textAlign:'center',marginTop:4}} onClick={()=>setMobileMenuOpen(false)}>Resume ↗</a>
+      </div>
+
       <nav className="pnav">
         <a href="#" className="pnav-logo">Prasanth Panneer Selvam</a>
         <ul className="pnav-links">
@@ -366,9 +432,11 @@ export default function Home() {
           <li><a href="#contact">Contact</a></li>
           <li><a href="/static/resume.pdf" target="_blank" className="btn-nav">Resume ↗</a></li>
         </ul>
+        <button className="mobile-menu-btn" onClick={()=>setMobileMenuOpen(o=>!o)}>
+          {mobileMenuOpen ? '✕' : '☰'}
+        </button>
       </nav>
 
-      {/* HERO WITH HORIZONTAL WIPE */}
       <div className="hero-wipe-wrap">
         <div className={`hero-wipe-panel${heroReady ? ' open' : ''}`} />
         <section className="hero">
@@ -530,7 +598,7 @@ export default function Home() {
             <div className="sec-tag"><span className="sec-dot" /> How I work</div>
             <h2 className="cap-h2" style={{marginBottom:8}}>Process</h2>
             <p className="cap-desc">Hover over each phase to explore. 8 structured phases across 2 projects building a complete enterprise Azure security environment.</p>
-            <div style={{display:'flex',gap:10,marginBottom:32}}>
+            <div style={{display:'flex',gap:10,marginBottom:32,flexWrap:'wrap'}}>
               <a href="https://github.com/Prasanth0809/azure-secure-cloud-infrastructure" target="_blank" className="btn-solid" style={{fontSize:13,padding:'11px 22px'}}>View CloudGuard</a>
               <a href="#projects" className="btn-outline" style={{fontSize:13,padding:'11px 22px'}}>See Projects</a>
             </div>
