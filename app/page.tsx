@@ -2,6 +2,70 @@
 
 import { useEffect, useState } from 'react'
 
+function JobHuntTimer() {
+  const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 })
+
+  useEffect(() => {
+    const start = new Date('2026-04-01T00:00:00').getTime()
+    const tick = () => {
+      const diff = Date.now() - start
+      const totalSeconds = Math.floor(diff / 1000)
+      const hours = Math.floor(totalSeconds / 3600)
+      const minutes = Math.floor((totalSeconds % 3600) / 60)
+      const seconds = totalSeconds % 60
+      setTime({ hours, minutes, seconds })
+    }
+    tick()
+    const t = setInterval(tick, 1000)
+    return () => clearInterval(t)
+  }, [])
+
+  const pad = (n: number) => String(n).padStart(2, '0')
+
+  return (
+    <section className="section reveal">
+      <div style={{textAlign:'center',maxWidth:800,margin:'0 auto'}}>
+        <div className="sec-tag" style={{margin:'0 auto 32px'}}><span className="sec-dot" /> Still Counting</div>
+        <h2 style={{fontFamily:'Sora,sans-serif',fontSize:'clamp(32px,5vw,56px)',fontWeight:700,letterSpacing:'-0.04em',lineHeight:1.1,marginBottom:48,color:'var(--fg)'}}>
+          Time without<br /><span style={{color:'var(--muted2)'}}>1st job offer.</span>
+        </h2>
+        <div style={{display:'flex',gap:16,justifyContent:'center',marginBottom:32,flexWrap:'wrap'}}>
+          {[
+            { label:'Hours', value: pad(time.hours) },
+            { label:'Minutes', value: pad(time.minutes) },
+            { label:'Seconds', value: pad(time.seconds) },
+          ].map(item => (
+            <div key={item.label} style={{
+              background:'var(--bg3)',
+              border:'1px solid var(--border)',
+              borderRadius:16,
+              padding:'32px 40px',
+              minWidth:160,
+              textAlign:'center',
+              flex:'1',
+              maxWidth:200,
+            }}>
+              <div style={{
+                fontFamily:'Sora,sans-serif',
+                fontSize:'clamp(40px,6vw,72px)',
+                fontWeight:700,
+                letterSpacing:'-0.05em',
+                lineHeight:1,
+                marginBottom:12,
+                color:'var(--fg)',
+                fontVariantNumeric:'tabular-nums',
+              }}>{item.value}</div>
+              <div style={{fontSize:13,color:'var(--muted)',letterSpacing:'0.05em',textTransform:'uppercase'}}>{item.label}</div>
+            </div>
+          ))}
+        </div>
+        <p style={{fontSize:13,color:'var(--muted2)',letterSpacing:'0.03em',fontStyle:'italic'}}>
+          ⏳ Stops when the owner lands his first job.
+        </p>
+      </div>
+    </section>
+  )
+}
 function ScrollProgress() {
   const [progress, setProgress] = useState(0)
 
@@ -625,6 +689,8 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="divider" />
+      <JobHuntTimer />
       <div className="divider" />
       <section className="section reveal">
         <div className="faq-split">
