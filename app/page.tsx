@@ -19,45 +19,44 @@ function PlayIntroBtn() {
   return (
     <div style={{
       position:'fixed',
-      right:36,
-      top:'60%',
-      transform:'translateY(-60%)',
+      right:28,
+      bottom:120,
       zIndex:150,
       display:'flex',
       flexDirection:'column',
       alignItems:'center',
-      gap:8,
+      gap:10,
     }}>
       <button
         onClick={handlePlay}
         title="Play intro"
         style={{
-          width:52,
-          height:52,
+          width:56,
+          height:56,
           borderRadius:'50%',
-          background: played ? 'rgba(240,237,232,0.08)' : 'rgba(240,237,232,0.12)',
-          border:'1px solid rgba(240,237,232,0.2)',
-          color:'var(--fg)',
-          fontSize:20,
+          background: played ? 'rgba(240,237,232,0.08)' : 'var(--fg)',
+          border: played ? '1px solid rgba(240,237,232,0.2)' : 'none',
+          color: played ? 'var(--fg)' : 'var(--bg)',
+          fontSize:22,
           cursor: played ? 'default' : 'pointer',
           display:'flex',
           alignItems:'center',
           justifyContent:'center',
-          backdropFilter:'blur(10px)',
           transition:'all 0.3s ease',
-          boxShadow: played ? 'none' : '0 0 20px rgba(240,237,232,0.08)',
+          boxShadow: played ? 'none' : '0 4px 24px rgba(240,237,232,0.2)',
         }}
       >
         {playing ? '🔊' : played ? '✓' : '▶'}
       </button>
       <span style={{
-        fontSize:10,
-        color:'var(--muted2)',
-        letterSpacing:'0.05em',
+        fontSize:11,
+        color:'var(--muted)',
+        letterSpacing:'0.08em',
         textTransform:'uppercase',
-        marginTop:4,
+        fontFamily:'Sora,sans-serif',
+        fontWeight:600,
       }}>
-        {playing ? 'playing' : played ? 'played' : 'intro'}
+        {playing ? 'Playing' : played ? 'Played ✓' : 'Play Intro'}
       </span>
     </div>
   )
