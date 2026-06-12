@@ -19,9 +19,9 @@ function PlayIntroBtn() {
   return (
     <div style={{
       position:'fixed',
-      right:32,
-      top:'50%',
-      transform:'translateY(-50%)',
+      right:36,
+      top:'60%',
+      transform:'translateY(-60%)',
       zIndex:150,
       display:'flex',
       flexDirection:'column',
