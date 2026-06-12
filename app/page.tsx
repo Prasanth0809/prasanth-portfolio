@@ -9,34 +9,57 @@ function PlayIntroBtn() {
   const handlePlay = () => {
     if (played) return
     const audio = new Audio('/intro.mp3')
-    audio.play()
+    audio.volume = 1
+    audio.play().catch(e => console.log(e))
     setPlaying(true)
     setPlayed(true)
     audio.onended = () => setPlaying(false)
   }
 
   return (
-    <button
-      onClick={handlePlay}
-      style={{
-        display:'inline-flex',
-        alignItems:'center',
-        gap:8,
-        border:'1px solid var(--border2)',
-        borderRadius:100,
-        padding:'7px 16px',
-        fontSize:13,
-        color: played ? 'var(--muted2)' : 'var(--muted)',
-        cursor: played ? 'default' : 'pointer',
-        backdropFilter:'blur(10px)',
-        background:'rgba(255,255,255,0.03)',
-        transition:'all 0.2s',
-        fontFamily:'Inter,sans-serif',
-      }}
-    >
-      <span style={{fontSize:10}}>{playing ? '🔊' : played ? '✓' : '▶'}</span>
-      {playing ? 'Playing...' : played ? 'Intro played' : 'Play intro'}
-    </button>
+    <div style={{
+      position:'fixed',
+      right:32,
+      top:'50%',
+      transform:'translateY(-50%)',
+      zIndex:150,
+      display:'flex',
+      flexDirection:'column',
+      alignItems:'center',
+      gap:8,
+    }}>
+      <button
+        onClick={handlePlay}
+        title="Play intro"
+        style={{
+          width:52,
+          height:52,
+          borderRadius:'50%',
+          background: played ? 'rgba(240,237,232,0.08)' : 'rgba(240,237,232,0.12)',
+          border:'1px solid rgba(240,237,232,0.2)',
+          color:'var(--fg)',
+          fontSize:20,
+          cursor: played ? 'default' : 'pointer',
+          display:'flex',
+          alignItems:'center',
+          justifyContent:'center',
+          backdropFilter:'blur(10px)',
+          transition:'all 0.3s ease',
+          boxShadow: played ? 'none' : '0 0 20px rgba(240,237,232,0.08)',
+        }}
+      >
+        {playing ? '🔊' : played ? '✓' : '▶'}
+      </button>
+      <span style={{
+        fontSize:10,
+        color:'var(--muted2)',
+        letterSpacing:'0.05em',
+        textTransform:'uppercase',
+        marginTop:4,
+      }}>
+        {playing ? 'playing' : played ? 'played' : 'intro'}
+      </span>
+    </div>
   )
 }
 function JobHuntTimer() {
@@ -518,15 +541,13 @@ export default function Home() {
           {mobileMenuOpen ? '✕' : '☰'}
         </button>
       </nav>
+<PlayIntroBtn />
 
       <div className="hero-wipe-wrap">
         <div className={`hero-wipe-panel${heroReady ? ' open' : ''}`} />
         <section className="hero">
-          <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:12,marginBottom:40,opacity:heroReady?1:0,transition:'opacity 0.6s ease 1.2s'}}>
-  <div className="hero-badge" style={{opacity:1,margin:0}}>
-    <span className="badge-dot" />Open to Azure Cloud Roles · Bengaluru
-  </div>
-  <PlayIntroBtn />
+          <div className={`hero-badge${heroReady ? ' show' : ''}`}>
+  <span className="badge-dot" />Open to Azure Cloud Roles · Bengaluru
 </div>
           <h1 className={`hero-h1${heroReady ? ' show' : ''}`}>
             Cloud that<br /><span className="dim">you need</span><br /><CyclingWord words={['secured.','monitored.','governed.','automated.']} />
