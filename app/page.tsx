@@ -607,6 +607,98 @@ export default function Home() {
       </section>
 
       <div className="divider" />
+<section className="section reveal" id="experience">
+  <div className="sec-tag" style={{marginBottom:32}}><span className="sec-dot" /> Experience</div>
+  <div style={{display:'flex',flexDirection:'column',gap:0}}>
+    <div style={{
+      background:'var(--bg3)',
+      border:'1px solid var(--border)',
+      borderRadius:16,
+      padding:'32px 36px',
+      display:'flex',
+      gap:24,
+      alignItems:'flex-start',
+    }}>
+      {/* Logo */}
+      <div style={{
+        width:56,
+        height:56,
+        borderRadius:12,
+        overflow:'hidden',
+        border:'1px solid var(--border)',
+        flexShrink:0,
+        background:'#0f6cbd',
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+      }}>
+        <img src="/nttdata-logo.jpeg" alt="NTT DATA" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+      </div>
+      {/* Content */}
+      <div style={{flex:1}}>
+        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',flexWrap:'wrap',gap:8,marginBottom:6}}>
+          <div>
+            <div style={{fontFamily:'Sora,sans-serif',fontSize:18,fontWeight:700,letterSpacing:'-0.02em',color:'var(--fg)',marginBottom:4}}>
+              Network Security Engineer (NAC L1 Support)
+            </div>
+            <div style={{fontSize:14,color:'var(--muted)',marginBottom:2}}>
+              NTT India Private Limited · Full-time
+            </div>
+            <div style={{fontSize:13,color:'var(--muted2)'}}>
+              June 2026 – Present · Chennai, India
+            </div>
+          </div>
+          <div style={{
+            background:'rgba(15,108,189,0.15)',
+            border:'1px solid rgba(15,108,189,0.3)',
+            borderRadius:100,
+            padding:'4px 12px',
+            fontSize:12,
+            color:'#4da3e8',
+            fontWeight:600,
+            whiteSpace:'nowrap',
+          }}>
+            Current Role
+          </div>
+        </div>
+
+        <p style={{fontSize:14,color:'var(--muted)',lineHeight:1.75,margin:'16px 0'}}>
+          Working as an L1 Network Access Control (NAC) support engineer at Indian Bank HQ under Managed Services, responsible for monitoring and maintaining network security infrastructure using ForeScout NAC solution.
+        </p>
+
+        <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:20}}>
+          {[
+            'Monitor and manage network access for 79,000+ endpoints across Indian Bank branches using ForeScout Enterprise Manager console',
+            'Troubleshoot 802.1x and MAB authentication failures for Windows and IoT devices including ATMs, printers, biometric systems, and VOIP phones',
+            'Manage MAC Address Repository (MAR) whitelisting for IoT device onboarding and analyze RADIUS authentication status',
+            'Work with Cisco, Aruba, and Tejas switches using CLI commands via Putty to diagnose port-level connectivity issues',
+            'Ensure endpoint compliance with Trend Micro Antivirus, Forcepoint DLP, Radia Patch, ForeScout Agent, and Titus data classification',
+            'Monitor network security components including WAF, SSLO, AAA (Cisco ISE), and Server Load Balancer',
+          ].map((item, i) => (
+            <div key={i} style={{display:'flex',gap:10,alignItems:'flex-start'}}>
+              <span style={{color:'#4da3e8',fontSize:12,marginTop:3,flexShrink:0}}>▸</span>
+              <span style={{fontSize:13,color:'var(--muted)',lineHeight:1.6}}>{item}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Tech badges */}
+        <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
+          {['ForeScout NAC','Cisco ISE','802.1x / MAB','RADIUS','Active Directory','Cisco Switches','Aruba Switches','Putty','WAF','SSLO','ITSM'].map(tech => (
+            <span key={tech} style={{
+              border:'1px solid var(--border2)',
+              borderRadius:100,
+              padding:'4px 12px',
+              fontSize:11,
+              color:'var(--muted)',
+              background:'rgba(255,255,255,0.03)',
+            }}>{tech}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
       <section className="section reveal" id="projects">
         <div className="works-header">
           <div className="works-title">Recent Works <div className="works-arrow">↓</div></div>
