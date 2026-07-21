@@ -61,6 +61,7 @@ function PlayIntroBtn() {
     </div>
   )
 }
+
 function JobHuntTimer() {
   return (
     <section className="section reveal">
@@ -106,6 +107,7 @@ function JobHuntTimer() {
     </section>
   )
 }
+
 function ScrollProgress() {
   const [progress, setProgress] = useState(0)
 
@@ -260,17 +262,17 @@ export default function Home() {
   const toggleFaq = (i: number) => setOpenFaq(openFaq === i ? null : i)
 
   const faqs = [
-    { q: 'What roles are you targeting?', a: 'Azure Cloud Engineer, Azure Administrator, Cloud Security, and GRC-adjacent roles in Bengaluru, Hyderabad, Chennai, or Coimbatore. Open to remote and hybrid positions.' },
+    { q: 'What is your current role?', a: 'I am a Network Security Engineer (NAC L1 Support) at NTT India Private Limited, deployed at Indian Bank HQ under Managed Services. I monitor and maintain network security infrastructure using ForeScout NAC and Cisco ISE.' },
     { q: 'What certifications do you hold?', a: 'Microsoft Certified: Azure Fundamentals (AZ-900) and AWS Certified Cloud Practitioner (AWS CCP). Currently targeting AZ-104 as the next milestone.' },
     { q: 'What is CloudGuard?', a: 'CloudGuard is my enterprise-grade Azure project covering 6 phases: secure networking, NSG hardening, Log Analytics monitoring with KQL, automated alerting, custom RBAC governance, Azure Policy, and Microsoft Defender for Cloud.' },
     { q: 'What is the CloudGuard IaC Pipeline project?', a: 'CloudGuard IaC Pipeline is my second Azure project — it automates the entire infrastructure deployment using Terraform and GitHub Actions CI/CD. Every push to GitHub triggers an automated pipeline that provisions Azure VNet, subnets, and NSG — eliminating manual portal clicks.' },
-    { q: 'What is your notice period?', a: "Zero days — I'm available to join immediately. Currently based in Bengaluru and actively applying for cloud roles." },
+    { q: 'What technologies do you work with?', a: 'ForeScout NAC, Cisco ISE (AAA), 802.1x/MAB authentication, RADIUS, Active Directory, Cisco/Aruba/Tejas switches, WAF, SSLO, and ITSM ticketing. On the cloud side: Azure, Terraform, GitHub Actions, KQL, and Microsoft Defender for Cloud.' },
     { q: 'How can I reach you?', a: 'Email me at prasanthp.080902@gmail.com or connect on LinkedIn at linkedin.com/in/prasanthpanneer. I typically respond within 24 hours.' },
   ]
 
-  const ticker1 = ['Azure VNet','NSG Hardening','RBAC Governance','Log Analytics','KQL Queries','Microsoft Defender','Azure Policy','Azure Monitor','AZ-900 Certified','AWS CCP','Terraform','GitHub Actions','CI/CD Pipeline']
+  const ticker1 = ['ForeScout NAC','Cisco ISE','802.1x / MAB','RADIUS','Azure VNet','NSG Hardening','RBAC Governance','Log Analytics','KQL Queries','Microsoft Defender','Terraform','GitHub Actions','CI/CD Pipeline','Active Directory','WAF · SSLO']
   const ticker2 = ['Azure Virtual Network','Network Security Groups','Azure Firewall','RBAC & IAM','Microsoft Defender for Cloud','Log Analytics Workspace','KQL','Azure Monitor','Terraform','GitHub Actions']
-  const ticker3 = ['Azure Policy','Compliance Assessment','Azure AD','Managed Identities','ARM Templates','Azure CLI','Resource Groups','AZ-900','AWS CCP','CI/CD Pipeline','GitOps']
+  const ticker3 = ['ForeScout NAC','Cisco ISE','802.1x','RADIUS','Active Directory','Aruba Switches','Cisco Switches','Azure Policy','AZ-900','AWS CCP','CI/CD Pipeline','WAF','SSLO','ITSM']
 
   const steps = [
     { n:1, icon:'🏗️', title:'Infrastructure Setup', desc:'Built VNet with public/private subnets, Storage Account, and Log Analytics Workspace from scratch on Azure Portal.' },
@@ -518,9 +520,11 @@ export default function Home() {
       </div>
 
       <ScrollProgress />
+      <PlayIntroBtn />
 
       <div className={`mobile-menu${mobileMenuOpen ? ' open' : ''}`}>
         <a href="#about" onClick={()=>setMobileMenuOpen(false)}>About</a>
+        <a href="#experience" onClick={()=>setMobileMenuOpen(false)}>Experience</a>
         <a href="#projects" onClick={()=>setMobileMenuOpen(false)}>Projects</a>
         <a href="#capabilities" onClick={()=>setMobileMenuOpen(false)}>Capabilities</a>
         <a href="#contact" onClick={()=>setMobileMenuOpen(false)}>Contact</a>
@@ -531,6 +535,7 @@ export default function Home() {
         <a href="#" className="pnav-logo">Prasanth Panneer Selvam</a>
         <ul className="pnav-links">
           <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#capabilities">Capabilities</a></li>
           <li><a href="#contact">Contact</a></li>
@@ -540,14 +545,13 @@ export default function Home() {
           {mobileMenuOpen ? '✕' : '☰'}
         </button>
       </nav>
-<PlayIntroBtn />
 
       <div className="hero-wipe-wrap">
         <div className={`hero-wipe-panel${heroReady ? ' open' : ''}`} />
         <section className="hero">
           <div className={`hero-badge${heroReady ? ' show' : ''}`}>
-  <span className="badge-dot" />Open to Azure Cloud Roles · Bengaluru
-</div>
+            <span className="badge-dot" />Open to Azure Cloud Roles · Bengaluru
+          </div>
           <h1 className={`hero-h1${heroReady ? ' show' : ''}`}>
             Cloud that<br /><span className="dim">you need</span><br /><CyclingWord words={['secured.','monitored.','governed.','automated.']} />
           </h1>
@@ -572,20 +576,20 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ABOUT */}
       <div className="divider" />
       <section className="section reveal" id="about">
         <div className="about-grid">
           <div>
             <div className="sec-tag"><span className="sec-dot" /> About me</div>
             <h2 className="about-h2">Meet<br /><span className="dim">Prasanth.</span></h2>
-            <p className="about-para">I'm a fresher Azure Cloud Engineer based in Bengaluru, specializing in cloud security, monitoring, and governance. I hold a Post Graduate Diploma in Cloud Data Management from Conestoga College, Canada.</p>
-            <p className="about-para">I've built two enterprise Azure projects — CloudGuard (6-phase secure cloud infrastructure covering VNet, NSG, RBAC, KQL monitoring, Azure Policy, and Defender for Cloud) and CloudGuard IaC Pipeline (Terraform + GitHub Actions CI/CD automating full Azure infrastructure deployment).</p>
+            <p className="about-para">I'm a Network Security Engineer at NTT India Private Limited, currently working on NAC L1 Support at Indian Bank HQ under Managed Services. With a strong foundation in Azure cloud security and infrastructure, I bring hands-on experience in network access control, endpoint compliance, and enterprise security operations.</p>
+            <p className="about-para">I hold a Post Graduate Diploma in Cloud Data Management from Conestoga College, Canada, and have built two enterprise Azure projects covering secure networking, NSG hardening, KQL monitoring, RBAC governance, and CI/CD automation — skills that directly complement my work in network security and infrastructure.</p>
             <div className="chips">
-              {['Azure Administration','Cloud Security','Log Analytics','KQL','RBAC & IAM','Azure Policy','NSG','Defender for Cloud','Azure Monitor','GRC'].map(c=><span key={c} className="chip">{c}</span>)}
+              {['Network Security','NAC (ForeScout)','Cisco ISE','802.1x / MAB','Azure Cloud','Cloud Security','Log Analytics','KQL','RBAC & IAM','Azure Policy','Terraform','GitHub Actions'].map(c=><span key={c} className="chip">{c}</span>)}
             </div>
             <div className="exp-table">
-              <div className="exp-row"><span className="exp-role">Azure Cloud Engineer</span><span className="exp-org">CloudGuard Project</span><span className="exp-date">Jan 2026 – Mar 2026</span></div>
-              <div className="exp-row"><span className="exp-role">CloudGuard IaC Pipeline</span><span className="exp-org">Terraform + GitHub Actions</span><span className="exp-date">Apr 2026 - Apr 2026</span></div>
+              <div className="exp-row"><span className="exp-role">Network Security Engineer (NAC L1)</span><span className="exp-org">NTT India · Indian Bank HQ</span><span className="exp-date">June 2026 – Present</span></div>
               <div className="exp-row"><span className="exp-role">PG Diploma – Cloud Data Mgmt</span><span className="exp-org">Conestoga College, Canada</span><span className="exp-date">2025</span></div>
               <div className="exp-row"><span className="exp-role">B.E. Computer Science</span><span className="exp-org">Kumaraguru College of Technology</span><span className="exp-date">2023</span></div>
             </div>
@@ -595,7 +599,7 @@ export default function Home() {
               <img src="/avatar.jpg" alt="Prasanth Panneer Selvam" />
               <div className="photo-overlay">
                 <div className="photo-name">Prasanth Panneer Selvam</div>
-                <div className="photo-role">Azure Cloud Engineer · Bengaluru</div>
+                <div className="photo-role">Network Security Engineer · NTT DATA</div>
               </div>
             </div>
             <div style={{display:'flex',gap:8,marginTop:12,flexWrap:'wrap'}}>
@@ -606,99 +610,106 @@ export default function Home() {
         </div>
       </section>
 
+      {/* EXPERIENCE */}
       <div className="divider" />
-<section className="section reveal" id="experience">
-  <div className="sec-tag" style={{marginBottom:32}}><span className="sec-dot" /> Experience</div>
-  <div style={{display:'flex',flexDirection:'column',gap:0}}>
-    <div style={{
-      background:'var(--bg3)',
-      border:'1px solid var(--border)',
-      borderRadius:16,
-      padding:'32px 36px',
-      display:'flex',
-      gap:24,
-      alignItems:'flex-start',
-    }}>
-      {/* Logo */}
-      <div style={{
-        width:56,
-        height:56,
-        borderRadius:12,
-        overflow:'hidden',
-        border:'1px solid var(--border)',
-        flexShrink:0,
-        background:'#0f6cbd',
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
-      }}>
-        <img src="/nttdata-logo.jpeg" alt="NTT DATA" style={{width:'100%',height:'100%',objectFit:'cover'}} />
-      </div>
-      {/* Content */}
-      <div style={{flex:1}}>
-        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',flexWrap:'wrap',gap:8,marginBottom:6}}>
-          <div>
-            <div style={{fontFamily:'Sora,sans-serif',fontSize:18,fontWeight:700,letterSpacing:'-0.02em',color:'var(--fg)',marginBottom:4}}>
-              Network Security Engineer (NAC L1 Support)
-            </div>
-            <div style={{fontSize:14,color:'var(--muted)',marginBottom:2}}>
-              NTT India Private Limited · Full-time
-            </div>
-            <div style={{fontSize:13,color:'var(--muted2)'}}>
-              June 2026 – Present · Chennai, India
-            </div>
-          </div>
+      <section className="section reveal" id="experience">
+        <div className="sec-tag" style={{marginBottom:32}}><span className="sec-dot" /> Experience</div>
+        <div style={{display:'flex',flexDirection:'column',gap:16}}>
           <div style={{
-            background:'rgba(15,108,189,0.15)',
-            border:'1px solid rgba(15,108,189,0.3)',
-            borderRadius:100,
-            padding:'4px 12px',
-            fontSize:12,
-            color:'#4da3e8',
-            fontWeight:600,
-            whiteSpace:'nowrap',
+            background:'var(--bg3)',
+            border:'1px solid var(--border)',
+            borderRadius:16,
+            padding:'32px 36px',
+            display:'flex',
+            gap:24,
+            alignItems:'flex-start',
           }}>
-            Current Role
+            {/* Logo */}
+            <div style={{
+              width:60,
+              height:60,
+              borderRadius:12,
+              overflow:'hidden',
+              border:'1px solid rgba(15,108,189,0.3)',
+              flexShrink:0,
+              background:'#0f6cbd',
+              display:'flex',
+              alignItems:'center',
+              justifyContent:'center',
+            }}>
+              <img src="/nttdata-logo.jpeg" alt="NTT DATA" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+            </div>
+            {/* Content */}
+            <div style={{flex:1}}>
+              <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',flexWrap:'wrap',gap:8,marginBottom:8}}>
+                <div>
+                  <div style={{fontFamily:'Sora,sans-serif',fontSize:18,fontWeight:700,letterSpacing:'-0.02em',color:'var(--fg)',marginBottom:4}}>
+                    Network Security Engineer (NAC L1 Support)
+                  </div>
+                  <div style={{fontSize:14,color:'var(--muted)',marginBottom:2}}>
+                    NTT India Private Limited · Full-time
+                  </div>
+                  <div style={{fontSize:13,color:'var(--muted2)'}}>
+                    June 2026 – Present · Chennai, India
+                  </div>
+                </div>
+                <div style={{
+                  background:'rgba(15,108,189,0.12)',
+                  border:'1px solid rgba(15,108,189,0.25)',
+                  borderRadius:100,
+                  padding:'5px 14px',
+                  fontSize:12,
+                  color:'#4da3e8',
+                  fontWeight:600,
+                  whiteSpace:'nowrap',
+                  letterSpacing:'0.02em',
+                }}>
+                  Current Role
+                </div>
+              </div>
+
+              <p style={{fontSize:14,color:'var(--muted)',lineHeight:1.75,margin:'16px 0'}}>
+                Working as an L1 Network Access Control (NAC) support engineer at Indian Bank HQ under NTT India Managed Services, responsible for monitoring and maintaining enterprise network security infrastructure for 79,000+ endpoints across Indian Bank branches nationwide using ForeScout NAC solution.
+              </p>
+
+              <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:24}}>
+                {[
+                  'Monitor and manage network access for 79,000+ endpoints across Indian Bank branches using ForeScout Enterprise Manager console',
+                  'Troubleshoot 802.1x and MAB authentication failures for Windows and IoT devices including ATMs, printers, biometric systems, and VOIP phones',
+                  'Manage MAC Address Repository (MAR) whitelisting for IoT device onboarding and analyze RADIUS authentication status and compliance posture',
+                  'Work with Cisco, Aruba, and Tejas switches using CLI commands via Putty to diagnose port-level connectivity issues',
+                  'Coordinate with L2 teams for domain rejoin, OS-related, and credential guard issues via ITSM ticketing system',
+                  'Ensure endpoint compliance with Trend Micro Antivirus, Forcepoint DLP, Radia Patch, ForeScout Agent, and Titus data classification',
+                  'Monitor network security components including WAF, SSLO, AAA (Cisco ISE), and Server Load Balancer',
+                ].map((item, i) => (
+                  <div key={i} style={{display:'flex',gap:10,alignItems:'flex-start'}}>
+                    <span style={{color:'#4da3e8',fontSize:12,marginTop:4,flexShrink:0}}>▸</span>
+                    <span style={{fontSize:13,color:'var(--muted)',lineHeight:1.65}}>{item}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Tech badges */}
+              <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
+                {['ForeScout NAC v8.5','Cisco ISE v3.4','802.1x / PEAP','MAB','RADIUS','Active Directory','Cisco Switches','Aruba Switches','Tejas Switches','Putty','WAF','SSLO','SLB','ITSM'].map(tech => (
+                  <span key={tech} style={{
+                    border:'1px solid var(--border2)',
+                    borderRadius:100,
+                    padding:'4px 12px',
+                    fontSize:11,
+                    color:'var(--muted)',
+                    background:'rgba(255,255,255,0.03)',
+                    letterSpacing:'0.02em',
+                  }}>{tech}</span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        <p style={{fontSize:14,color:'var(--muted)',lineHeight:1.75,margin:'16px 0'}}>
-          Working as an L1 Network Access Control (NAC) support engineer at Indian Bank HQ under Managed Services, responsible for monitoring and maintaining network security infrastructure using ForeScout NAC solution.
-        </p>
-
-        <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:20}}>
-          {[
-            'Monitor and manage network access for 79,000+ endpoints across Indian Bank branches using ForeScout Enterprise Manager console',
-            'Troubleshoot 802.1x and MAB authentication failures for Windows and IoT devices including ATMs, printers, biometric systems, and VOIP phones',
-            'Manage MAC Address Repository (MAR) whitelisting for IoT device onboarding and analyze RADIUS authentication status',
-            'Work with Cisco, Aruba, and Tejas switches using CLI commands via Putty to diagnose port-level connectivity issues',
-            'Ensure endpoint compliance with Trend Micro Antivirus, Forcepoint DLP, Radia Patch, ForeScout Agent, and Titus data classification',
-            'Monitor network security components including WAF, SSLO, AAA (Cisco ISE), and Server Load Balancer',
-          ].map((item, i) => (
-            <div key={i} style={{display:'flex',gap:10,alignItems:'flex-start'}}>
-              <span style={{color:'#4da3e8',fontSize:12,marginTop:3,flexShrink:0}}>▸</span>
-              <span style={{fontSize:13,color:'var(--muted)',lineHeight:1.6}}>{item}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Tech badges */}
-        <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
-          {['ForeScout NAC','Cisco ISE','802.1x / MAB','RADIUS','Active Directory','Cisco Switches','Aruba Switches','Putty','WAF','SSLO','ITSM'].map(tech => (
-            <span key={tech} style={{
-              border:'1px solid var(--border2)',
-              borderRadius:100,
-              padding:'4px 12px',
-              fontSize:11,
-              color:'var(--muted)',
-              background:'rgba(255,255,255,0.03)',
-            }}>{tech}</span>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+      {/* PROJECTS */}
+      <div className="divider" />
       <section className="section reveal" id="projects">
         <div className="works-header">
           <div className="works-title">Recent Works <div className="works-arrow">↓</div></div>
@@ -738,6 +749,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CAPABILITIES */}
       <div className="divider" />
       <section className="section reveal" id="capabilities">
         <div className="cap-split">
@@ -745,14 +757,14 @@ export default function Home() {
             <div>
               <div className="sec-tag"><span className="sec-dot" /> Capabilities</div>
               <h2 className="cap-h2">What I build &amp; protect</h2>
-              <p className="cap-desc">Focused on enterprise-grade Azure environments — from secure network architecture to centralized monitoring, governance, and compliance.</p>
+              <p className="cap-desc">From enterprise network access control and endpoint compliance to Azure cloud security and infrastructure automation — bridging network security and cloud engineering.</p>
               <div className="cap-btns">
                 <a href="#projects" className="btn-solid" style={{fontSize:13,padding:'11px 22px'}}>See Projects</a>
                 <a href="#contact" className="btn-outline" style={{fontSize:13,padding:'11px 22px'}}>Get in Touch</a>
               </div>
             </div>
             <div className="stats-row">
-              <div className="stat-cell"><div className="stat-n">2</div><div className="stat-l">Projects completed</div></div>
+              <div className="stat-cell"><div className="stat-n">79K+</div><div className="stat-l">Endpoints managed</div></div>
               <div className="stat-cell"><div className="stat-n">2</div><div className="stat-l">Cloud certifications</div></div>
               <div className="stat-cell"><div className="stat-n">AZ-900</div><div className="stat-l">Microsoft certified</div></div>
             </div>
@@ -760,12 +772,12 @@ export default function Home() {
           <div className="cap-right">
             <div className="cap-cards">
               {[
-                {icon:'🔒',title:'Cloud Security',body:'NSG hardening, Microsoft Defender for Cloud, Zero-Trust principles, threat detection and response.'},
-                {icon:'📊',title:'Monitoring & KQL',body:'Log Analytics Workspace, custom KQL queries, Azure Monitor alerts and diagnostic settings.'},
-                {icon:'🏛️',title:'Governance & Policy',body:'Azure Policy enforcement, compliance scoring, resource tagging, and RBAC role assignments.'},
-                {icon:'🌐',title:'Networking',body:'VNet design, subnet segmentation, route tables, peering, and Azure Firewall configuration.'},
-                {icon:'⚙️',title:'Infrastructure as Code',body:'Terraform provisioning, Azure resource automation, GitOps workflow, and repeatable infrastructure deployment.'},
-                {icon:'🔄',title:'CI/CD Pipelines',body:'GitHub Actions automated pipelines, Terraform plan and apply workflows, push-triggered deployments.'},
+                {icon:'🛡️',title:'Network Access Control',body:'ForeScout NAC, 802.1x/MAB authentication, RADIUS, MAC Address Repository, endpoint onboarding and compliance posture management.'},
+                {icon:'🔒',title:'Cloud Security',body:'NSG hardening, Microsoft Defender for Cloud, Zero-Trust principles, threat detection and response on Azure environments.'},
+                {icon:'🌐',title:'Network Infrastructure',body:'Cisco, Aruba, and Tejas switch management via CLI, port-level diagnostics, VLAN configuration, and connectivity troubleshooting.'},
+                {icon:'📊',title:'Monitoring & KQL',body:'Log Analytics Workspace, custom KQL queries, Azure Monitor alerts, WAF/SSLO/SLB monitoring and security event analysis.'},
+                {icon:'🏛️',title:'Governance & Policy',body:'Azure Policy enforcement, compliance scoring, resource tagging, RBAC role assignments, and endpoint compliance enforcement.'},
+                {icon:'⚙️',title:'Infrastructure as Code',body:'Terraform provisioning, GitHub Actions CI/CD, GitOps workflows, and automated Azure infrastructure deployment.'},
               ].map(c=>(
                 <div key={c.title} className="cap-card">
                   <div className="cap-icon">{c.icon}</div>
@@ -782,6 +794,7 @@ export default function Home() {
         <div className="st-row"><div className="st-inner rev">{[...ticker3,...ticker3].map((t,i)=><span key={i} className="st-item">{t}</span>)}</div></div>
       </div>
 
+      {/* PROCESS */}
       <div className="divider" />
       <section className="section reveal">
         <div className="process-split">
@@ -822,15 +835,18 @@ export default function Home() {
         </div>
       </section>
 
+      {/* TIMER */}
       <div className="divider" />
       <JobHuntTimer />
+
+      {/* FAQ */}
       <div className="divider" />
       <section className="section reveal">
         <div className="faq-split">
           <div>
             <div className="sec-tag"><span className="sec-dot" /> FAQ</div>
             <div className="faq-h">Answers.</div>
-            <p className="faq-sub">Common questions about my background, skills, and how to get in touch.</p>
+            <p className="faq-sub">Common questions about my background, current role, and how to get in touch.</p>
           </div>
           <div className="faq-list">
             {faqs.map((f,i)=>(
@@ -845,6 +861,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CTA */}
       <section className="cta-section" id="contact">
         <div className="cta-blob1" /><div className="cta-blob2" />
         <div className="cta-avail"><span className="cta-avail-dot" /> Available for Work</div>
