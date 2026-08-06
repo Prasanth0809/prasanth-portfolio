@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 function PlayIntroBtn() {
   const [played, setPlayed] = useState(false)
@@ -62,6 +62,161 @@ function PlayIntroBtn() {
   )
 }
 
+function CountUp({ target, duration = 2000, suffix = '' }: { target: number, duration?: number, suffix?: string }) {
+  const [count, setCount] = useState(0)
+  const [started, setStarted] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => { if (entries[0].isIntersecting && !started) setStarted(true) },
+      { threshold: 0.5 }
+    )
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!started) return
+    let startTime: number
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp
+      const progress = Math.min((timestamp - startTime) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCount(Math.floor(eased * target))
+      if (progress < 1) requestAnimationFrame(step)
+      else setCount(target)
+    }
+    requestAnimationFrame(step)
+  }, [started])
+
+  return <div ref={ref}>{count.toLocaleString()}{suffix}</div>
+}
+
+function SectionCompass() {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const sections = ['About', 'Experience', 'Projects', 'Capabilities', 'Contact']
+  const ids = ['about', 'experience', 'projects', 'capabilities', 'contact']
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = []
+    ids.forEach((id, i) => {
+      const el = document.getElementById(id)
+      if (!el) return
+      const obs = new IntersectionObserver(
+        (entries) => { if (entries[0].isIntersecting) setActiveIndex(i) },
+        { threshold: 0.3, rootMargin: '-80px 0px -40% 0px' }
+      )
+      obs.observe(el)
+      observers.push(obs)
+    })
+    return () => observers.forEach(o => o.disconnect())
+  }, [])
+
+  // Arc geometry
+  const cx = 200
+  const cy = 200
+  const r = 160
+  const startAngle = -150
+  const endAngle = -30
+  const totalAngle = endAngle - startAngle
+
+  const angleStep = totalAngle / (sections.length - 1)
+  const needleAngle = startAngle + activeIndex * angleStep
+
+  const toRad = (deg: number) => (deg * Math.PI) / 180
+  const px = (angle: number, radius: number) => cx + radius * Math.cos(toRad(angle))
+  const py = (angle: number, radius: number) => cy + radius * Math.sin(toRad(angle))
+
+  const arcPath = `M ${px(startAngle, r)} ${py(startAngle, r)} A ${r} ${r} 0 0 1 ${px(endAngle, r)} ${py(endAngle, r)}`
+
+  return (
+    <div style={{
+      position:'fixed',
+      top:56,
+      left:'50%',
+      transform:'translateX(-50%)',
+      zIndex:190,
+      pointerEvents:'none',
+      width:400,
+      height:120,
+      overflow:'visible',
+    }} className="compass-wrap">
+      <svg width="400" height="120" viewBox="0 0 400 120" style={{overflow:'visible'}}>
+        {/* Arc track */}
+        <path
+          d={arcPath}
+          fill="none"
+          stroke="rgba(240,237,232,0.08)"
+          strokeWidth="1"
+        />
+        {/* Active arc segment */}
+        {activeIndex > 0 && (() => {
+          const activeEnd = startAngle + activeIndex * angleStep
+          const activePath = `M ${px(startAngle, r)} ${py(startAngle, r)} A ${r} ${r} 0 0 1 ${px(activeEnd, r)} ${py(activeEnd, r)}`
+          return (
+            <path
+              d={activePath}
+              fill="none"
+              stroke="rgba(240,237,232,0.25)"
+              strokeWidth="1.5"
+            />
+          )
+        })()}
+        {/* Section dots and labels */}
+        {sections.map((name, i) => {
+          const angle = startAngle + i * angleStep
+          const dotX = px(angle, r)
+          const dotY = py(angle, r)
+          const labelX = px(angle, r - 24)
+          const labelY = py(angle, r - 24)
+          const isActive = i === activeIndex
+          return (
+            <g key={name}>
+              <circle
+                cx={dotX}
+                cy={dotY}
+                r={isActive ? 4 : 2.5}
+                fill={isActive ? 'rgba(240,237,232,0.9)' : 'rgba(240,237,232,0.25)'}
+                style={{transition:'all 0.4s ease'}}
+              />
+              <text
+                x={labelX}
+                y={labelY}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fontSize={isActive ? 9 : 8}
+                fill={isActive ? 'rgba(240,237,232,0.85)' : 'rgba(240,237,232,0.25)'}
+                fontFamily="Sora, sans-serif"
+                fontWeight={isActive ? 700 : 400}
+                letterSpacing="0.08em"
+                style={{transition:'all 0.4s ease', textTransform:'uppercase'}}
+              >
+                {name.toUpperCase()}
+              </text>
+            </g>
+          )
+        })}
+        {/* Needle */}
+        <line
+          x1={cx}
+          y1={cy}
+          x2={px(needleAngle, r - 10)}
+          y2={py(needleAngle, r - 10)}
+          stroke="rgba(240,237,232,0.7)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          style={{transition:'all 0.6s cubic-bezier(0.34,1.56,0.64,1)'}}
+        />
+        {/* Center dot */}
+        <circle cx={cx} cy={cy} r={3} fill="rgba(240,237,232,0.5)" />
+        {/* Outer ring */}
+        <circle cx={cx} cy={cy} r={6} fill="none" stroke="rgba(240,237,232,0.15)" strokeWidth="1" />
+      </svg>
+    </div>
+  )
+}
+
 function JobHuntTimer() {
   return (
     <section className="section reveal">
@@ -72,9 +227,9 @@ function JobHuntTimer() {
         </h2>
         <div style={{display:'flex',gap:16,justifyContent:'center',marginBottom:32,flexWrap:'wrap'}}>
           {[
-            { label:'Hours', value: '1673' },
-            { label:'Minutes', value: '11' },
-            { label:'Seconds', value: '17' },
+            { label:'Hours', value: 1673 },
+            { label:'Minutes', value: 11 },
+            { label:'Seconds', value: 17 },
           ].map(item => (
             <div key={item.label} style={{
               background:'var(--bg3)',
@@ -95,7 +250,9 @@ function JobHuntTimer() {
                 marginBottom:12,
                 color:'var(--fg)',
                 fontVariantNumeric:'tabular-nums',
-              }}>{item.value}</div>
+              }}>
+                <CountUp target={item.value} duration={2500} />
+              </div>
               <div style={{fontSize:13,color:'var(--muted)',letterSpacing:'0.05em',textTransform:'uppercase'}}>{item.label}</div>
             </div>
           ))}
@@ -315,10 +472,14 @@ export default function Home() {
         .mobile-menu a:last-child{border-bottom:none;margin-top:8px}
         .mobile-menu a:hover{color:var(--fg)}
 
+        /* COMPASS - hidden on mobile */
+        .compass-wrap{display:block}
+        @media(max-width:768px){.compass-wrap{display:none!important}}
+
         .hero-wipe-wrap{position:relative;z-index:1;min-height:100vh;overflow:hidden}
         .hero-wipe-panel{position:absolute;inset:0;background:var(--bg);transform-origin:right center;transition:transform 1.1s cubic-bezier(0.77,0,0.18,1);transform:scaleX(1);z-index:3}
         .hero-wipe-panel.open{transform:scaleX(0)}
-        .hero{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 60px}
+        .hero{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:160px 24px 60px}
         .hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border2);border-radius:100px;padding:7px 16px;font-size:13px;color:var(--muted);margin-bottom:40px;backdrop-filter:blur(10px);background:rgba(255,255,255,0.03);opacity:0;transition:opacity 0.6s ease 1.2s}
         .hero-badge.show{opacity:1}
         .badge-dot{width:7px;height:7px;border-radius:50%;background:var(--fg);animation:pulse 2s ease-in-out infinite}
@@ -521,6 +682,7 @@ export default function Home() {
 
       <ScrollProgress />
       <PlayIntroBtn />
+      <SectionCompass />
 
       <div className={`mobile-menu${mobileMenuOpen ? ' open' : ''}`}>
         <a href="#about" onClick={()=>setMobileMenuOpen(false)}>About</a>
@@ -624,7 +786,6 @@ export default function Home() {
             gap:24,
             alignItems:'flex-start',
           }}>
-            {/* Logo */}
             <div style={{
               width:60,
               height:60,
@@ -639,7 +800,6 @@ export default function Home() {
             }}>
               <img src="/nttdata-logo.jpeg" alt="NTT DATA" style={{width:'100%',height:'100%',objectFit:'cover'}} />
             </div>
-            {/* Content */}
             <div style={{flex:1}}>
               <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',flexWrap:'wrap',gap:8,marginBottom:8}}>
                 <div>
@@ -667,11 +827,9 @@ export default function Home() {
                   Current Role
                 </div>
               </div>
-
               <p style={{fontSize:14,color:'var(--muted)',lineHeight:1.75,margin:'16px 0'}}>
                 Working as an L1 Network Access Control (NAC) support engineer at Indian Bank HQ under NTT India Managed Services, responsible for monitoring and maintaining enterprise network security infrastructure for 79,000+ endpoints across Indian Bank branches nationwide using ForeScout NAC solution.
               </p>
-
               <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:24}}>
                 {[
                   'Monitor and manage network access for 79,000+ endpoints across Indian Bank branches using ForeScout Enterprise Manager console',
@@ -688,8 +846,6 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-
-              {/* Tech badges */}
               <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
                 {['ForeScout NAC v8.5','Cisco ISE v3.4','802.1x / PEAP','MAB','RADIUS','Active Directory','Cisco Switches','Aruba Switches','Tejas Switches','Putty','WAF','SSLO','SLB','ITSM'].map(tech => (
                   <span key={tech} style={{
@@ -764,9 +920,18 @@ export default function Home() {
               </div>
             </div>
             <div className="stats-row">
-              <div className="stat-cell"><div className="stat-n">79K+</div><div className="stat-l">Endpoints managed</div></div>
-              <div className="stat-cell"><div className="stat-n">2</div><div className="stat-l">Cloud certifications</div></div>
-              <div className="stat-cell"><div className="stat-n">AZ-900</div><div className="stat-l">Microsoft certified</div></div>
+              <div className="stat-cell">
+                <div className="stat-n"><CountUp target={79000} suffix="+" duration={2200} /></div>
+                <div className="stat-l">Endpoints managed</div>
+              </div>
+              <div className="stat-cell">
+                <div className="stat-n"><CountUp target={2} duration={1000} /></div>
+                <div className="stat-l">Cloud certifications</div>
+              </div>
+              <div className="stat-cell">
+                <div className="stat-n">AZ-900</div>
+                <div className="stat-l">Microsoft certified</div>
+              </div>
             </div>
           </div>
           <div className="cap-right">
